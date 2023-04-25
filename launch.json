@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch Wordle.UI",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceRoot}/Wordle.UI/bin/Debug/net7.0/Wordle.UI.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/Wordle.UI",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        }
+    ]
+}

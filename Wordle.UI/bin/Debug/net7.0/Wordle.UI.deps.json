@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "Wordle.UI/1.0.0": {
+        "dependencies": {
+          "Wordle.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Wordle.UI.dll": {}
+        }
+      },
+      "Wordle.Domain/1.0.0": {
+        "runtime": {
+          "Wordle.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Wordle.UI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Wordle.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
