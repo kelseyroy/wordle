@@ -495,5 +495,9 @@ bin/
 relative/path/to/dir/filename.extension
 
 # Ignore a file without extension
+<<<<<<< HEAD
 relative/path/to/dir/anotherfile
 >>>>>>> 7fbfd14 (Updates .gitignore to ignore binary/bin files)
+=======
+relative/path/to/dir/anotherfiledebug.log
+>>>>>>> a885af2 (.gitignore is now working)
