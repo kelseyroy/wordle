@@ -3,7 +3,33 @@
 namespace Wordle.Domain;
 public class Game
 {
-    public string GetGreeting() => "Hello!";
+    List<string> guesses = new List<string>();
+    public string Board(List<string> guesses) 
+    {
+        string upperBoardString = "╔═══╦═══╦═══╦═══╦═══╗";
+        string middleBoardString = "╠═══╬═══╬═══╬═══╬═══╣";
+        string endBoardString = "╚═══╩═══╩═══╩═══╩═══╝";
+        string sideBoardString = "║";
+
+        string emptyBoard = @"
+ ╔═══╦═══╦═══╦═══╦═══╗
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╚═══╩═══╩═══╩═══╩═══╝
+ ";
+            return emptyBoard;
+    }
+        
+
 
     public Score[] EvaluateGuess(string answer, string guess)
     {
@@ -30,5 +56,5 @@ public class Game
 
         return result;
     }
-
 }
+

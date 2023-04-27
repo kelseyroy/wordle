@@ -1,10 +1,9 @@
 using Xunit;
 using Wordle.Domain;
-using static Wordle.Domain.Game;
 
 namespace Wordle.Tests;
 
-public class WordleUnitTests
+public class EvaluateGuess
 {
     public static string answer = "ADEPT";
 
@@ -87,7 +86,7 @@ public class WordleUnitTests
     public void EvaluateGuess_WhenPlayersEnterAnyCase_ShouldStillEvaluateCorrectly()
     {
         var guessLowerCase = "audio";
-        
+
         Score[] expectedResult = {
             Score.Correct,
             Score.NotInWord,
@@ -135,4 +134,34 @@ public class WordleUnitTests
 
         Assert.Equal(expectedResult, actualResult);
     }
+}
+public class Board
+{
+    Wordle.Domain.Game game = new Wordle.Domain.Game();
+
+    List<string> testGuesses = new List<string>();
+
+    [Fact]
+    public void Board_WhenPlayerHasNotGuessed_ShouldReturnAnEmptyBoard()
+    {
+        string emptyBoard = @"
+ ╔═══╦═══╦═══╦═══╦═══╗
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╚═══╩═══╩═══╩═══╩═══╝
+ ";
+        var actualResult = game.Board(testGuesses);
+
+        Assert.Equal(emptyBoard, actualResult);
+    }
+
 }
