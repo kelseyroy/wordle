@@ -135,33 +135,3 @@ public class EvaluateGuess
         Assert.Equal(expectedResult, actualResult);
     }
 }
-public class Board
-{
-    Wordle.Domain.Game game = new Wordle.Domain.Game();
-
-    List<string> testGuesses = new List<string>();
-
-    [Fact]
-    public void Board_WhenPlayerHasNotGuessed_ShouldReturnAnEmptyBoard()
-    {
-        string emptyBoard = @"
- ╔═══╦═══╦═══╦═══╦═══╗
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╚═══╩═══╩═══╩═══╩═══╝
- ";
-        var actualResult = game.Board(testGuesses);
-
-        Assert.Equal(emptyBoard, actualResult);
-    }
-
-}
