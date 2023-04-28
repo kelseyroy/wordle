@@ -1,21 +1,31 @@
+using System;
+using System.Text;
 namespace Wordle.UI;
 
 interface IWordleUI
 {
-    string Board(List<string> guesses);
+    string StringifyBoard(List<string> guesses);
 }
 
 class ConsoleUI : IWordleUI
 {
-    public string Board(List<string> guesses) 
-    {
+    public string StringifyBoard(List<string> guesses) 
+    {   
         string upperBoardString = "╔═══╦═══╦═══╦═══╦═══╗";
+        StringBuilder sb = new StringBuilder(upperBoardString);
         string middleBoardString = "╠═══╬═══╬═══╬═══╬═══╣";
         string endBoardString = "╚═══╩═══╩═══╩═══╩═══╝";
         string sideBoardString = "║";
 
+
+        foreach(string guess in guesses)
+        {
+            sb.Append(Environment.NewLine);
+            
+        }
+
         string emptyBoard = $@"
-        {upperBoardString}
+        {upperBoardString} 
         {sideBoardString}   {sideBoardString}   {sideBoardString}   {sideBoardString}   {sideBoardString}   {sideBoardString}
         {middleBoardString}
         {sideBoardString}   {sideBoardString}   {sideBoardString}   {sideBoardString}   {sideBoardString}   {sideBoardString}
@@ -29,6 +39,7 @@ class ConsoleUI : IWordleUI
         {sideBoardString}   {sideBoardString}   {sideBoardString}   {sideBoardString}   {sideBoardString}   {sideBoardString}
         {endBoardString}
         ";
-            return emptyBoard;
+        
+        return emptyBoard;
     }
 }
