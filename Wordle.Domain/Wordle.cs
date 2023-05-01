@@ -3,9 +3,8 @@
 namespace Wordle.Domain;
 public class Game
 {
-    public string GetGreeting() => "Hello!";
 
-    public Score[] EvaluateGuess(string answer, string guess)
+    public Score[] EvaluateGuess(string answer, Guess guess)
     {
         Score[] result = {
             Score.NotInWord,
@@ -15,7 +14,7 @@ public class Game
             Score.NotInWord
         };
         int i = 0;
-        foreach (char guessLetter in guess.ToUpper())
+        foreach (char guessLetter in guess.Word.ToUpper())
         {
             if (answer.Contains(guessLetter))
             {
