@@ -10,18 +10,49 @@ public static class Program
     {
         try
         {
-            Wordle.Domain.Game game = new Wordle.Domain.Game();
-            var correctGuess = new Guess()
+            var game = new Game();
+            Console.Clear();
+            Console.WriteLine(@"
+ ╔═══╦═══╦═══╦═══╦═══╗
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╚═══╩═══╩═══╩═══╩═══╝");
+            Console.WriteLine("Type in your 5 letter guess, then hit enter:");
+            var guess = Console.ReadLine();
+
+            if (guess != null)
             {
-                Number = 6,
-                Word = "ADEPT"
-            };
-            Console.WriteLine(game.EvaluateGuess("ADEPT", correctGuess));
-        }
+                Console.Clear();
+                Console.WriteLine(@$"
+ ╔═══╦═══╦═══╦═══╦═══╗
+ ║ {guess[0]} ║ {guess[1]} ║ {guess[2]} ║ {guess[3]} ║ {guess[4]} ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╚═══╩═══╩═══╩═══╩═══╝");
+            }
+        }            
         catch (Exception error)
         {
             Console.WriteLine(error.Message);
         }
 
     }
+    
 }

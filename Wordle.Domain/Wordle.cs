@@ -3,9 +3,6 @@
 namespace Wordle.Domain;
 public class Game
 {
-    // create a letter score
-
-
     public List<LetterScore> EvaluateGuess(string answer, Guess guess)
     {
         int i = 0;
