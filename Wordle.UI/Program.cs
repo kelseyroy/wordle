@@ -57,7 +57,7 @@ public static class Program
  ║   ║   ║   ║   ║   ║
  ╚═══╩═══╩═══╩═══╩═══╝");
     }
-    private static void DisplayCell(LetterScore letter)
+    private static void RenderCell(LetterScore letter)
     {
         if (letter.Eval == Score.Correct)
         {
@@ -75,12 +75,12 @@ public static class Program
         Console.BackgroundColor = ConsoleColor.Black;
     }
 
-    private static void DisplayRow(WordScore word)
+    private static void RenderRow(WordScore word)
     {
         foreach (LetterScore letter in word.LetterScores)
         {
             Console.Write("║");
-            DisplayCell(letter);
+            RenderCell(letter);
         }
         Console.Write("║" + Environment.NewLine);
     }
@@ -99,7 +99,7 @@ public static class Program
         {
             while (i < guessCount)
             {
-                DisplayRow(words[i]);
+                RenderRow(words[i]);
                 Console.WriteLine(rowBorder);
                 i++;
             }
