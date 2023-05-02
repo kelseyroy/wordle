@@ -54,6 +54,24 @@ public static class Program
         }
 
     }
+    private static void DisplayCell(LetterScore letter)
+    {
+        if (letter.Eval == Score.Correct)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+        }
+        else if (letter.Eval == Score.InWord)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
+        }
+        else
+        {
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+        }
+        Console.Write($" {letter.Letter} ");
+        Console.BackgroundColor = ConsoleColor.Black;
+    }
+
     private static void DisplayRow(WordScore word)
     {
         foreach (LetterScore letter in word.LetterScores)
@@ -63,4 +81,5 @@ public static class Program
         }
         Console.Write("║");
     }
+
 }
