@@ -10,7 +10,7 @@ public static class Program
     {
         try
         {
-            int guessNum = 0;
+            int guessCount = 0;
             string secretWord = "ADEPT";
             WordScore[] wordScoreArray = new WordScore[6];
             var game = new Game();
@@ -20,14 +20,15 @@ public static class Program
             var guess = Console.ReadLine();
 
             if (guess != null)
-            {   
-                wordScoreArray[guessNum] = new WordScore()
+            {
+                guessCount++;
+                wordScoreArray[guessCount - 1] = new WordScore()
                 {
-                    GuessNumber = guessNum + 1,
+                    GuessNumber = guessCount,
                     LetterScores = game.EvaluateGuess(secretWord, guess)
                 };
-                guessNum++;
-                UpdateBoard(wordScoreArray, guessNum);
+
+                UpdateBoard(wordScoreArray, guessCount);
             }
         }
         catch (Exception error)
@@ -40,6 +41,7 @@ public static class Program
     private static void DisplayEmptyBoard()
     {
         Console.Clear();
+        Console.BackgroundColor = ConsoleColor.Black;
         Console.WriteLine(@"
  ╔═══╦═══╦═══╦═══╦═══╗
  ║   ║   ║   ║   ║   ║
@@ -84,21 +86,25 @@ public static class Program
     }
     private static void UpdateBoard(WordScore[] words, int guessCount)
     {
-        Console.Clear();
         var topBorder = "╔═══╦═══╦═══╦═══╦═══╗";
         var bottomBorder = "╚═══╩═══╩═══╩═══╩═══╝";
         var rowBorder = "╠═══╬═══╬═══╬═══╬═══╣";
         var emptyRow = "║   ║   ║   ║   ║   ║";
-        Console.WriteLine(topBorder); 
-        for(int i = 0; i < guessCount; i++)
-        {
-            DisplayRow(words[i]);
-            Console.WriteLine(rowBorder);
 
-        }
-        for(int i = guessCount; i <= 6; i++){
+        Console.Clear();
+        Console.WriteLine(topBorder);
+        
+        int i = 0;
+        while (i < 6)
+        {
+            while (i < guessCount)
+            {
+                DisplayRow(words[i]);
+                Console.WriteLine(rowBorder);
+                i++;
+            }
             Console.WriteLine(emptyRow);
-            if (i == 6)
+            if (i == 5)
             {
                 break;
             }
@@ -106,7 +112,8 @@ public static class Program
             {
                 Console.WriteLine(rowBorder);
             }
-        }  
+            i++;
+        }
         Console.WriteLine(bottomBorder);
     }
 }
