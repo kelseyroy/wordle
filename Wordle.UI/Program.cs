@@ -10,42 +10,24 @@ public static class Program
     {
         try
         {
+            int guessNum = 0;
+            string secretWord = "ADEPT";
+            WordScore[] wordScoreArray = new WordScore[6];
             var game = new Game();
-            Console.Clear();
-            Console.WriteLine(@"
- ╔═══╦═══╦═══╦═══╦═══╗
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╚═══╩═══╩═══╩═══╩═══╝");
+            DisplayEmptyBoard();
+
             Console.WriteLine("Type in your 5 letter guess, then hit enter:");
             var guess = Console.ReadLine();
 
             if (guess != null)
-            {
-                Console.Clear();
-                Console.WriteLine(@$"
- ╔═══╦═══╦═══╦═══╦═══╗
- ║ {guess[0]} ║ {guess[1]} ║ {guess[2]} ║ {guess[3]} ║ {guess[4]} ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╚═══╩═══╩═══╩═══╩═══╝");
+            {   
+                wordScoreArray[guessNum] = new WordScore()
+                {
+                    GuessNumber = guessNum + 1,
+                    LetterScores = game.EvaluateGuess(secretWord, guess)
+                };
+                guessNum++;
+                UpdateBoard(wordScoreArray, guessNum);
             }
         }
         catch (Exception error)
@@ -53,6 +35,25 @@ public static class Program
             Console.WriteLine(error.Message);
         }
 
+    }
+
+    private static void DisplayEmptyBoard()
+    {
+        Console.Clear();
+        Console.WriteLine(@"
+ ╔═══╦═══╦═══╦═══╦═══╗
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╠═══╬═══╬═══╬═══╬═══╣
+ ║   ║   ║   ║   ║   ║
+ ╚═══╩═══╩═══╩═══╩═══╝");
     }
     private static void DisplayCell(LetterScore letter)
     {
@@ -79,7 +80,33 @@ public static class Program
             Console.Write("║");
             DisplayCell(letter);
         }
-        Console.Write("║");
+        Console.Write("║" + Environment.NewLine);
     }
+    private static void UpdateBoard(WordScore[] words, int guessCount)
+    {
+        Console.Clear();
+        var topBorder = "╔═══╦═══╦═══╦═══╦═══╗";
+        var bottomBorder = "╚═══╩═══╩═══╩═══╩═══╝";
+        var rowBorder = "╠═══╬═══╬═══╬═══╬═══╣";
+        var emptyRow = "║   ║   ║   ║   ║   ║";
+        Console.WriteLine(topBorder); 
+        for(int i = 0; i < guessCount; i++)
+        {
+            DisplayRow(words[i]);
+            Console.WriteLine(rowBorder);
 
+        }
+        for(int i = guessCount; i <= 6; i++){
+            Console.WriteLine(emptyRow);
+            if (i == 6)
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine(rowBorder);
+            }
+        }  
+        Console.WriteLine(bottomBorder);
+    }
 }
