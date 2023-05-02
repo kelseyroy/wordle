@@ -3,32 +3,37 @@
 namespace Wordle.Domain;
 public class Game
 {
-    public string GetGreeting() => "Hello!";
-
-    public Score[] EvaluateGuess(string answer, string guess)
+    public List<LetterScore> EvaluateGuess(string answer, Guess guess)
     {
-        Score[] result = {
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord
-        };
         int i = 0;
-        foreach (char guessLetter in guess.ToUpper())
-        {
-            if (answer.Contains(guessLetter))
+
+        List<LetterScore> letterScoresList = new List<LetterScore>();
+        foreach (char guessLetter in guess.Word.ToUpper())
+        {   
+            LetterScore letterScore = new LetterScore()
             {
-                result[i] = Score.InWord;
-                if (answer[i] == guessLetter)
-                {
-                    result[i] = Score.Correct;
-                }
-            }
+                Id = i,
+                Letter = guessLetter,
+                Eval = evaluateLetter(guessLetter, i, answer)
+            };
+            letterScoresList.Add(letterScore);
             i++;
         }
 
-        return result;
+        return letterScoresList;
     }
 
+    private Score evaluateLetter(char guessLetter, int i, string answer)
+    {
+        if (answer[i] == guessLetter)
+        {
+            return Score.Correct;
+        } 
+        if (answer.Contains(guessLetter))
+        {
+            return Score.InWord;
+        }
+
+        return Score.NotInWord;
+    }
 }
