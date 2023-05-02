@@ -14,11 +14,7 @@ public class WordleUnitTests
     [Fact]
     public void EvaluateGuess_WhenNoLetterIsInWord_ShouldReturnAllNotInWord()
     {
-        var incorrectGuess = new Guess()
-        {
-            Number = 1,
-            Word = "GROWN"
-        };
+        var incorrectGuess = "GROWN";
 
         Score[] expectedResult = {
             Score.NotInWord,
@@ -39,11 +35,7 @@ public class WordleUnitTests
     [Fact]
     public void EvaluateGuess_WhenFirstLetterIsCorrect_ShouldReturnOneCorrect()
     {
-        var guessWithFirstLetterCorrect = new Guess()
-        {
-            Number = 2,
-            Word = "ARBOR"
-        };
+        var guessWithFirstLetterCorrect = "ARBOR";
 
         Score[] expectedResult = {
             Score.Correct,
@@ -64,11 +56,7 @@ public class WordleUnitTests
     [Fact]
     public void EvaluateGuess_WhenFirstLetterIsInWord_ShouldReturnOneInWord()
     {
-        var guessWithFirstLetterInWord = new Guess()
-        {
-            Number = 3,
-            Word = "TOURS"
-        };
+        var guessWithFirstLetterInWord = "TOURS";
 
         Score[] expectedResult = {
             Score.InWord,
@@ -89,11 +77,7 @@ public class WordleUnitTests
     [Fact]
     public void EvaluateGuess_WhenOneLetterIsCorrectAndOneLetterIsInWord_ShouldReturnOneCorrectOneInWord()
     {
-        var guessWithOneCorrectAndOneInWord = new Guess()
-        {
-            Number = 4,
-            Word = "AUDIO"
-        };
+        var guessWithOneCorrectAndOneInWord = "AUDIO";
 
         Score[] expectedResult = {
             Score.Correct,
@@ -114,11 +98,7 @@ public class WordleUnitTests
     [Fact]
     public void EvaluateGuess_WhenPlayersEnterAnyCase_ShouldStillEvaluateCorrectly()
     {
-        var guessLowerCase = new Guess()
-        {
-            Number = 4,
-            Word = "audio"
-        };
+        var guessLowerCase = "audio";
 
         Score[] expectedResult = {
             Score.Correct,
@@ -139,11 +119,7 @@ public class WordleUnitTests
     [Fact]
     public void EvaluateGuess_WhenAllLettersAreInWord_ShouldReturnAllInWord()
     {
-        var guessAllLettersInWord = new Guess()
-        {
-            Number = 5,
-            Word = "TAPED"
-        };
+        var guessAllLettersInWord = "TAPED";
 
         Score[] expectedResult = {
             Score.InWord,
@@ -163,11 +139,7 @@ public class WordleUnitTests
     [Fact]
     public void EvaluateGuess_WhenAllLettersAreCorrect_ShouldReturnAllCorrect()
     {
-        var correctGuess = new Guess()
-        {
-            Number = 6,
-            Word = "ADEPT"
-        };
+        var correctGuess = "ADEPT";
 
         Score[] expectedResult = {
             Score.Correct,
