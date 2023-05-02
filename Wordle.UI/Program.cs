@@ -47,11 +47,20 @@ public static class Program
  ║   ║   ║   ║   ║   ║
  ╚═══╩═══╩═══╩═══╩═══╝");
             }
-        }            
+        }
         catch (Exception error)
         {
             Console.WriteLine(error.Message);
         }
 
+    }
+    private static void DisplayRow(WordScore word)
+    {
+        foreach (LetterScore letter in word.LetterScores)
+        {
+            Console.Write("║");
+            DisplayCell(letter);
+        }
+        Console.Write("║");
     }
 }
