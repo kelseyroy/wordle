@@ -14,12 +14,17 @@ public static class Program
             string secretWord = "ADEPT";
             WordScore[] wordScoreArray = new WordScore[6];
             var game = new Game();
+            var guessValidator = new GuessValidator();
             DisplayEmptyBoard();
 
             Console.WriteLine("Type in your 5 letter guess, then hit enter:");
             var guess = Console.ReadLine();
 
-            if (guess != null)
+            if (guess == null || !guessValidator.IsValid(guess))
+            {
+                throw new ArgumentException(String.Format("{0} is not a valid word", guess),"guess");
+            }
+            else
             {
                 guessCount++;
                 wordScoreArray[guessCount - 1] = new WordScore()

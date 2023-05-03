@@ -8,7 +8,7 @@ public class WordleUnitTests
 {
     public static string answer = "ADEPT";
 
-    Wordle.Domain.Game game = new Wordle.Domain.Game();
+    Game game = new Game();
 
 
     [Fact]
@@ -155,41 +155,5 @@ public class WordleUnitTests
         {
             Assert.Equal(expectedResult[ls.Id], ls.Eval);
         }
-    }
-    [Fact]
-    public void IsWordFiveLetters_WhenGuessIsEmpty_ShouldReturnFalse()
-    {
-        var emptyStringGuess = "";
-        Assert.False(game.IsWordFiveLetters(emptyStringGuess));
-    }
-
-    [Fact]
-    public void IsWordFiveLetters_WhenGuessIsFiveSpaces_ShouldReturnFalse()
-    {
-        var fiveWhiteSpacesGuess = "     ";
-        Assert.False(game.IsWordFiveLetters(fiveWhiteSpacesGuess));
-    }
-
-    [Fact]
-    public void IsWordFiveLetters_WhenGuessHasUntrimmedWhiteSpaces_ShouldStillReturnTrue()
-    {
-        var untrimmedGuess = @"  
-        ADEPT    
-           ";
-        Assert.True(game.IsWordFiveLetters(untrimmedGuess));
-    }
-
-    [Fact]
-    public void IsWordFiveLetters_WhenGuessHasFourLettersPlusOneWhiteSpace_ShouldStillReturnFalse()
-    {
-        var fourLetterGuess = "NOSE ";
-        Assert.False(game.IsWordFiveLetters(fourLetterGuess));
-    }
-
-    [Fact]
-    public void IsWordFiveLetters_WhenGuessHasOverFiveLetters_ShouldReturnFalse()
-    {
-        var sixLetterGuess = "NAUSEA";
-        Assert.False(game.IsWordFiveLetters(sixLetterGuess));
     }
 }

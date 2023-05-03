@@ -3,16 +3,6 @@
 namespace Wordle.Domain;
 public class Game
 {
-        public bool IsWordFiveLetters(string guess)
-    {
-        var guessTrimmed = RemoveWhiteSpace(guess);
-        return guessTrimmed.Length == 5;
-    }
-
-    public static string RemoveWhiteSpace(string guess)
-    {
-        return String.Concat(guess.Where(c => !Char.IsWhiteSpace(c)));
-    }
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
         int i = 0;

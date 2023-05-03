@@ -30,7 +30,7 @@ public class GuessValidatorUnitTest
 
     [Fact]
     public void IsFiveLetters_WhenGuessIsExactlyFiveLetters_ShouldReturnTrue()
-    { 
+    {
         var fiveLetterGuess = "ADEPT";
         Assert.True(guessValidator.IsFiveLetters(fiveLetterGuess));
     }
@@ -40,5 +40,12 @@ public class GuessValidatorUnitTest
     {
         var fiveLetterGuess = "ABCDE";
         Assert.True(guessValidator.IsValid(fiveLetterGuess));
+    }
+
+    [Fact]
+    public void IsValid_WhenGuessHasNumericCharacter_ShouldReturnFalse()
+    {
+        var leetSpeakGuess = "H4X0R";
+        Assert.False(guessValidator.IsValid(leetSpeakGuess));
     }
 }

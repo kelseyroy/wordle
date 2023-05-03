@@ -1,12 +1,11 @@
 namespace Wordle.Domain;
+using System.Text.RegularExpressions;
 
 public class GuessValidator
 {
-    // public int Number {get; set;} = 1;
-    // public string Word {get; set;} = "";
     public bool IsFiveLetters(string guess)
     {
-        return guess.Length == 5;
+        return guess.Length == 5 && Regex.IsMatch(guess, @"^[a-zA-Z]+$");
     }
 
     public bool IsValid(string guess)
