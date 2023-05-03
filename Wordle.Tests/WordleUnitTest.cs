@@ -166,7 +166,30 @@ public class WordleUnitTests
     [Fact]
     public void IsWordFiveLetters_WhenGuessIsFiveSpaces_ShouldReturnFalse()
     {
-        var emptyStringGuess = "     ";
-        Assert.False(game.IsWordFiveLetters(emptyStringGuess));
+        var fiveWhiteSpacesGuess = "     ";
+        Assert.False(game.IsWordFiveLetters(fiveWhiteSpacesGuess));
+    }
+
+    [Fact]
+    public void IsWordFiveLetters_WhenGuessHasUntrimmedWhiteSpaces_ShouldStillReturnTrue()
+    {
+        var untrimmedGuess = @"  
+        ADEPT    
+           ";
+        Assert.True(game.IsWordFiveLetters(untrimmedGuess));
+    }
+
+    [Fact]
+    public void IsWordFiveLetters_WhenGuessHasFourLettersPlusOneWhiteSpace_ShouldStillReturnFalse()
+    {
+        var fourLetterGuess = "NOSE ";
+        Assert.False(game.IsWordFiveLetters(fourLetterGuess));
+    }
+
+    [Fact]
+    public void IsWordFiveLetters_WhenGuessHasOverFiveLetters_ShouldReturnFalse()
+    {
+        var sixLetterGuess = "NAUSEA";
+        Assert.False(game.IsWordFiveLetters(sixLetterGuess));
     }
 }
