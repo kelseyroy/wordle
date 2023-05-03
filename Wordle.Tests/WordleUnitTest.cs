@@ -156,4 +156,10 @@ public class WordleUnitTests
             Assert.Equal(expectedResult[ls.Id], ls.Eval);
         }
     }
+    [Fact]
+    public void IsWordFiveLetters_WhenGuessIsEmpty_ShouldReturnFalse()
+    {
+        var emptyStringGuess = "";
+        Assert.True(game.IsWordFiveLetters(emptyStringGuess));
+    }
 }

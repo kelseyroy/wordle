@@ -3,6 +3,10 @@
 namespace Wordle.Domain;
 public class Game
 {
+        public bool IsWordFiveLetters(string guess)
+    {
+        return guess.Length < 5 || guess.Length >5;
+    }
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
         int i = 0;
