@@ -3,12 +3,12 @@
 namespace Wordle.Domain;
 public class Game
 {
-    public List<LetterScore> EvaluateGuess(string answer, Guess guess)
+    public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
         int i = 0;
 
         List<LetterScore> letterScoresList = new List<LetterScore>();
-        foreach (char guessLetter in guess.Word.ToUpper())
+        foreach (char guessLetter in guess.ToUpper())
         {   
             LetterScore letterScore = new LetterScore()
             {
