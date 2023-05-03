@@ -160,6 +160,13 @@ public class WordleUnitTests
     public void IsWordFiveLetters_WhenGuessIsEmpty_ShouldReturnFalse()
     {
         var emptyStringGuess = "";
-        Assert.True(game.IsWordFiveLetters(emptyStringGuess));
+        Assert.False(game.IsWordFiveLetters(emptyStringGuess));
+    }
+
+    [Fact]
+    public void IsWordFiveLetters_WhenGuessIsFiveSpaces_ShouldReturnFalse()
+    {
+        var emptyStringGuess = "     ";
+        Assert.False(game.IsWordFiveLetters(emptyStringGuess));
     }
 }

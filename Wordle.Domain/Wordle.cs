@@ -5,7 +5,13 @@ public class Game
 {
         public bool IsWordFiveLetters(string guess)
     {
-        return guess.Length < 5 || guess.Length >5;
+        var guessTrimmed = RemoveWhiteSpace(guess);
+        return guessTrimmed.Length == 5;
+    }
+
+    public static string RemoveWhiteSpace(string guess)
+    {
+        return String.Concat(guess.Where(c => !Char.IsWhiteSpace(c)));
     }
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
