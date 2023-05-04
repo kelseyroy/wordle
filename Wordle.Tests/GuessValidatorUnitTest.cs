@@ -36,16 +36,16 @@ public class GuessValidatorUnitTest
     }
 
     [Fact]
+    public void IsFiveLetters_WhenGuessHasNumericCharacter_ShouldReturnFalse()
+    {
+        var leetSpeakGuess = "H4X0R";
+        Assert.False(guessValidator.IsFiveLetters(leetSpeakGuess));
+    }
+
+    [Fact]
     public void IsValid_WhenGuessIsAnyFiveLetters_ShouldReturnTrue()
     {
         var fiveLetterGuess = "ABCDE";
         Assert.True(guessValidator.IsValid(fiveLetterGuess));
-    }
-
-    [Fact]
-    public void IsValid_WhenGuessHasNumericCharacter_ShouldReturnFalse()
-    {
-        var leetSpeakGuess = "H4X0R";
-        Assert.False(guessValidator.IsValid(leetSpeakGuess));
     }
 }
