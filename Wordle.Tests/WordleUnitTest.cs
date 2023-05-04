@@ -8,7 +8,7 @@ public class WordleUnitTests
 {
     public static string answer = "ADEPT";
 
-    Wordle.Domain.Game game = new Wordle.Domain.Game();
+    Game game = new Game();
 
 
     [Fact]
