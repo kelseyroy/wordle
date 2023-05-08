@@ -13,7 +13,7 @@ public static class Program
             int guessCount = 0;
             string secretWord = "ADEPT";
             WordScore[] wordScoreArray = new WordScore[6];
-            var game = new Game();
+            var game = new Domain.Wordle();
             var guessValidator = new GuessValidator();
             DisplayEmptyBoard();
 
