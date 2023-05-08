@@ -9,7 +9,7 @@ public class Wordle
 
         List<LetterScore> letterScoresList = new List<LetterScore>();
         foreach (char guessLetter in guess.ToUpper())
-        {   
+        {
             LetterScore letterScore = new LetterScore()
             {
                 Id = i,
@@ -28,7 +28,7 @@ public class Wordle
         if (answer[i] == guessLetter)
         {
             return Score.Correct;
-        } 
+        }
         if (answer.Contains(guessLetter))
         {
             return Score.InWord;
