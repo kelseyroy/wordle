@@ -15,7 +15,8 @@ public static class Program
             WordScore[] wordScoreArray = new WordScore[6];
             var game = new Domain.Wordle();
             var guessValidator = new GuessValidator();
-            DisplayEmptyBoard();
+            var consoleUI = new ConsoleUI();
+            consoleUI.DisplayEmptyBoard();
 
             Console.WriteLine("Type in your 5 letter guess, then hit enter:");
             var guess = Console.ReadLine();
@@ -26,14 +27,9 @@ public static class Program
             }
             else
             {
-                guessCount++;
-                wordScoreArray[guessCount - 1] = new WordScore()
-                {
-                    GuessNumber = guessCount,
-                    LetterScores = game.EvaluateGuess(secretWord, guess)
-                };
+                
 
-                UpdateBoard(wordScoreArray, guessCount);
+                consoleUI.UpdateBoard(wordScoreArray, guessCount);
             }
         }
         catch (Exception error)
@@ -41,84 +37,5 @@ public static class Program
             Console.WriteLine(error.Message);
         }
 
-    }
-
-    private static void DisplayEmptyBoard()
-    {
-        Console.Clear();
-        Console.BackgroundColor = ConsoleColor.Black;
-        Console.WriteLine(@"
- ╔═══╦═══╦═══╦═══╦═══╗
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╚═══╩═══╩═══╩═══╩═══╝");
-    }
-    private static void RenderCell(LetterScore letter)
-    {
-        if (letter.Eval == Score.Correct)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-        }
-        else if (letter.Eval == Score.InWord)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkYellow;
-        }
-        else
-        {
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-        }
-        Console.Write($" {letter.Letter} ");
-        Console.BackgroundColor = ConsoleColor.Black;
-    }
-
-    private static void RenderRow(WordScore word)
-    {
-        foreach (LetterScore letter in word.LetterScores)
-        {
-            Console.Write("║");
-            RenderCell(letter);
-        }
-        Console.Write("║" + Environment.NewLine);
-    }
-    private static void UpdateBoard(WordScore[] words, int guessCount)
-    {
-        var topBorder = "╔═══╦═══╦═══╦═══╦═══╗";
-        var bottomBorder = "╚═══╩═══╩═══╩═══╩═══╝";
-        var rowBorder = "╠═══╬═══╬═══╬═══╬═══╣";
-        var emptyRow = "║   ║   ║   ║   ║   ║";
-
-        Console.Clear();
-        Console.WriteLine(topBorder);
-        
-        int i = 0;
-        while (i < 6)
-        {
-            while (i < guessCount)
-            {
-                RenderRow(words[i]);
-                Console.WriteLine(rowBorder);
-                i++;
-            }
-            Console.WriteLine(emptyRow);
-            if (i == 5)
-            {
-                break;
-            }
-            else
-            {
-                Console.WriteLine(rowBorder);
-            }
-            i++;
-        }
-        Console.WriteLine(bottomBorder);
     }
 }
