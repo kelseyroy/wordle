@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Wordle.Domain;
-public class Game
+public class Wordle
 {
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
