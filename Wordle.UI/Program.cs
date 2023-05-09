@@ -12,8 +12,6 @@ public static class Program
         {
             string secretWord = "ADEPT";
             var guesses = new Domain.GuessStatistics();
-            var game = new Domain.Game();
-            var guessValidator = new GuessValidator();
             var consoleUI = new ConsoleUI();
 
             consoleUI.DisplayEmptyBoard();

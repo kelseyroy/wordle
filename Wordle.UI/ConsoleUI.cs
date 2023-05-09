@@ -4,7 +4,6 @@ namespace Wordle.UI;
 public class ConsoleUI : IWordleUI
 {
     Game game = new Game();
-    // GuessStatistics guesses = new GuessStatistics();
     GuessValidator guessValidator = new GuessValidator();
 
     
@@ -94,25 +93,6 @@ public class ConsoleUI : IWordleUI
                 Console.WriteLine(rowBorder);
             }
         }
-        // while (i < 6)
-        // {
-        //     while (i < guessCount)
-        //     {
-        //         RenderRow(words[i]);
-        //         Console.WriteLine(rowBorder);
-        //         i++;
-        //     }
-        //     Console.WriteLine(emptyRow);
-        //     if (i >= 5)
-        //     {
-        //         break;
-        //     }
-        //     else
-        //     {
-        //         Console.WriteLine(rowBorder);
-        //     }
-        //     i++;
-        // }
         Console.WriteLine(bottomBorder);
     }
     private void RenderRow(WordScore word)
