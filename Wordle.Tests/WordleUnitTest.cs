@@ -1,6 +1,6 @@
 using Xunit;
 using Wordle.Domain;
-using static Wordle.Domain.Wordle;
+using static Wordle.Domain.Game;
 
 namespace Wordle.Tests;
 
@@ -8,7 +8,7 @@ public class WordleUnitTests
 {
     public static string answer = "ADEPT";
 
-    Domain.Wordle game = new Domain.Wordle();
+    Domain.Game game = new Domain.Game();
 
 
     [Fact]

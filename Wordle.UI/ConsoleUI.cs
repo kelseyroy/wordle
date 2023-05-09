@@ -3,6 +3,31 @@ namespace Wordle.UI;
 
 public class ConsoleUI : IWordleUI
 {
+    Game game = new Game();
+    GuessValidator guessValidator = new GuessValidator();
+
+    
+    public void TakeTurns(string answer, GuessStatistics guesses)
+    {
+        var guess = GetGuess();
+        var letterScoresList = game.EvaluateGuess(answer, guess);
+        guesses.UpdateGuessStatistics(letterScoresList);
+        UpdateBoard(guesses.GuessArray, guesses.GuessCount);
+    }
+    public string GetGuess()
+    {
+        DisplayMessage("Type in your 5 letter guess, then hit enter:");
+        var guess = GetGuessInput();
+        var isValidGuess = guessValidator.IsValid(guess);
+        if (isValidGuess)
+        {
+            return guess;
+        }
+        else
+        {
+            return GetGuess();
+        }
+    }
     public void DisplayMessage(string message)
     {
         Console.WriteLine(message);
@@ -46,30 +71,27 @@ public class ConsoleUI : IWordleUI
         var topBorder = "╔═══╦═══╦═══╦═══╦═══╗";
         var bottomBorder = "╚═══╩═══╩═══╩═══╩═══╝";
         var rowBorder = "╠═══╬═══╬═══╬═══╬═══╣";
-        var emptyRow = "║ ║ ║ ║ ║ ║";
+        var emptyRow = "║   ║   ║   ║   ║   ║";
 
         Console.Clear();
         Console.WriteLine(topBorder);
 
         int i = 0;
-        while (i < 6)
+        foreach (WordScore word in words)
         {
-            while (i < guessCount)
+            if (word != null)
             {
-                RenderRow(words[i]);
-                Console.WriteLine(rowBorder);
-                i++;
-            }
-            Console.WriteLine(emptyRow);
-            if (i == 5)
-            {
-                break;
+                RenderRow(word);
             }
             else
             {
-                Console.WriteLine(rowBorder);
+                Console.WriteLine(emptyRow);
             }
             i++;
+            if (i <= 5)
+            {
+                Console.WriteLine(rowBorder);
+            }
         }
         Console.WriteLine(bottomBorder);
     }
