@@ -7,7 +7,7 @@ public class GuessStatisticsUnitTests
     public static string answer = "ADEPT";
     public static List<Domain.LetterScore> guessOne = game.EvaluateGuess(answer, "GROWN");
     public static List<Domain.LetterScore> guessTwo = game.EvaluateGuess(answer, "GROWN");
-    public void TwoGuesses()
+    private void TwoGuesses()
     {
         guessStatistics.UpdateGuessStatistics(guessOne);
         guessStatistics.UpdateGuessStatistics(guessTwo);
@@ -22,7 +22,7 @@ public class GuessStatisticsUnitTests
     {
         foreach (Domain.WordScore item in guessStatistics.GuessArray)
         {
-            Assert.Equal(item, null);
+            Assert.Null(item);
         }
     }
     [Fact]
@@ -57,5 +57,3 @@ public class GuessStatisticsUnitTests
         Assert.Equal(expectedResult, actualResult);
     }
 }
-
-
