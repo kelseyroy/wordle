@@ -13,4 +13,14 @@ public class GuessStatistics
             LetterScores = letterScores
         };
     }
+
+    public WordScore[] GetGuessArray()
+    {
+        return GuessArray;
+    }
+    public int GetGuessCount()
+    {
+        return GuessCount;
+    }
+    
 }

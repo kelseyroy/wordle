@@ -2,7 +2,7 @@ namespace Wordle.Tests;
 
 public class GuessStatisticsUnitTests
 {
-    public static Wordle.Domain.Wordle game = new Domain.Wordle();
+    public static Wordle.Domain.Game game = new Domain.Game();
     Wordle.Domain.GuessStatistics guessStatistics = new Domain.GuessStatistics();
     public static string answer = "ADEPT";
     public static List<Domain.LetterScore> guessOne = game.EvaluateGuess(answer, "GROWN");
