@@ -13,7 +13,7 @@ public static class Program
             int guessCount = 0;
             string secretWord = "ADEPT";
             WordScore[] wordScoreArray = new WordScore[6];
-            var game = new Game();
+            var game = new Game(secretWord);
             var guessValidator = new GuessValidator();
             DisplayEmptyBoard();
 
@@ -30,7 +30,7 @@ public static class Program
                 wordScoreArray[guessCount - 1] = new WordScore()
                 {
                     GuessNumber = guessCount,
-                    LetterScores = game.EvaluateGuess(secretWord, guess)
+                    LetterScores = game.EvaluateGuess(guess)
                 };
 
                 UpdateBoard(wordScoreArray, guessCount);

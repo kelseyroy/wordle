@@ -3,7 +3,14 @@
 namespace Wordle.Domain;
 public class Game
 {
-    public List<LetterScore> EvaluateGuess(string answer, string guess)
+    private string answer;
+
+    public Game(string answer)
+    {
+        this.answer = answer;
+    }
+
+    public List<LetterScore> EvaluateGuess(string guess)
     {
         int i = 0;
 
@@ -14,7 +21,7 @@ public class Game
             {
                 Id = i,
                 Letter = guessLetter,
-                Eval = evaluateLetter(guessLetter, i, answer)
+                Eval = evaluateLetter(guessLetter, answer[i])
             };
             letterScoresList.Add(letterScore);
             i++;
@@ -23,9 +30,9 @@ public class Game
         return letterScoresList;
     }
 
-    private Score evaluateLetter(char guessLetter, int i, string answer)
+    private Score evaluateLetter(char guessLetter, char answerLetter)
     {
-        if (answer[i] == guessLetter)
+        if (answerLetter == guessLetter)
         {
             return Score.Correct;
         } 
