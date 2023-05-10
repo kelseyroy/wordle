@@ -3,17 +3,7 @@ namespace Wordle.UI;
 
 public class ConsoleUI : IWordleUI
 {
-    Game game = new Game();
     GuessValidator guessValidator = new GuessValidator();
-
-    
-    public void TakeTurns(string answer, GuessStatistics guesses)
-    {
-        var guess = GetGuess();
-        var letterScoresList = game.EvaluateGuess(answer, guess);
-        guesses.UpdateGuessStatistics(letterScoresList);
-        UpdateBoard(guesses.GuessArray, guesses.GuessCount);
-    }
     public string GetGuess()
     {
         DisplayMessage("Type in your 5 letter guess, then hit enter:");
