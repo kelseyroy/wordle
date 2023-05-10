@@ -4,10 +4,10 @@ public class Answer
 {
     public string GetRandomWord(string filePath)
     {
-        var wordsArr = ReadWordsFile(filePath);
-        var i = new Random().Next(wordsArr.Length);
+        var words = ReadWordsFile(filePath);
+        var i = new Random().Next(words.Length);
 
-        return wordsArr[i];
+        return words[i];
     }
     public string[] ReadWordsFile(string filePath)
     {

@@ -12,10 +12,7 @@ public class AnswerUnitTests
     private static string relativePath = "../../../Data/5_letter_words_test.txt";
     private static string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
     public static string filePath = Path.GetFullPath(Path.Combine(currentDirectory, relativePath));
-    [Fact]
-    public void ReadWordsFile_WhenFilePathIsNotNull_ShouldReturnFileWordsArray()
-    {
-        string[] expectedResult = new string[]
+    private string[] wordsInDataFile = new string[]
         {
             "RULER",
             "MODEL",
@@ -28,9 +25,12 @@ public class AnswerUnitTests
             "CARAT",
             "ROUGH"
         };
+    [Fact]
+    public void ReadWordsFile_WhenFilePathIsNotNull_ShouldReturnFileWordsArray()
+    {
 
         var actualResult = answer.ReadWordsFile(filePath);
-        bool isEqualLists = expectedResult.All(actualResult.Contains) && actualResult.All(expectedResult.Contains);
+        bool isEqualLists = wordsInDataFile.All(actualResult.Contains) && actualResult.All(wordsInDataFile.Contains);
 
         Assert.True(isEqualLists);
     }
@@ -46,21 +46,8 @@ public class AnswerUnitTests
     public void GetRandomWord_ShouldReturnWordFromWordsFile()
     {
         var randomWord = answer.GetRandomWord(filePath);
-        string[] wordsArray = new string[]
-        {
-            "RULER",
-            "MODEL",
-            "AWARD",
-            "HOTLY",
-            "NICHE",
-            "JOUST",
-            "ARBOR",
-            "EERIE",
-            "CARAT",
-            "ROUGH"
-        };
+        bool isRandomWordFromDataFile = Array.Exists(wordsInDataFile, element => element == randomWord);
 
-        bool isRandomWordFromWordsArray = Array.Exists(wordsArray, element => element == randomWord);
-        Assert.True(isRandomWordFromWordsArray);
+        Assert.True(isRandomWordFromDataFile);
     }
 }
