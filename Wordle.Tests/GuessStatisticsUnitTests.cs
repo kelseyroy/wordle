@@ -1,12 +1,14 @@
+using Wordle.Domain;
+
 namespace Wordle.Tests;
 
 public class GuessStatisticsUnitTests
 {
-    public static Wordle.Domain.Game game = new Domain.Game();
-    Wordle.Domain.GuessStatistics guessStatistics = new Domain.GuessStatistics();
     public static string answer = "ADEPT";
-    public static List<Domain.LetterScore> guessOne = game.EvaluateGuess(answer, "GROWN");
-    public static List<Domain.LetterScore> guessTwo = game.EvaluateGuess(answer, "GROWN");
+    public static Game game = new Game(answer);
+    GuessStatistics guessStatistics = new GuessStatistics();
+    public static List<Domain.LetterScore> guessOne = game.EvaluateGuess("GROWN");
+    public static List<Domain.LetterScore> guessTwo = game.EvaluateGuess("GROWN");
     private void TwoGuesses()
     {
         guessStatistics.UpdateGuessStatistics(guessOne);
@@ -35,7 +37,7 @@ public class GuessStatisticsUnitTests
     [Fact]
     public void GuessArray_WhenUpdateGuessStatisticsIsCalledOnce_ShouldHaveOneWordScoreItem()
     {
-        var expectedResult = game.EvaluateGuess(answer, "ARBOR");
+        var expectedResult = game.EvaluateGuess("ARBOR");
         guessStatistics.UpdateGuessStatistics(expectedResult);
         var actualResult = guessStatistics.GuessArray[0].LetterScores;
         Assert.Equal(expectedResult, actualResult);

@@ -11,14 +11,14 @@ public static class Program
         try
         {
             string secretWord = "ADEPT";
-            Game game = new Game();
+            Game game = new Game(null);
             var guesses = new Domain.GuessStatistics();
             var consoleUI = new ConsoleUI();
 
             void TakeTurns(string answer, GuessStatistics guesses)
             {
                 var guess = consoleUI.GetGuess();
-                var letterScoresList = game.EvaluateGuess(answer, guess);
+                var letterScoresList = game.EvaluateGuess(guess);
                 guesses.UpdateGuessStatistics(letterScoresList);
                 consoleUI.UpdateBoard(guesses.GuessArray, guesses.GuessCount);
             }

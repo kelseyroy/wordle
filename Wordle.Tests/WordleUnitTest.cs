@@ -1,6 +1,5 @@
 using Xunit;
 using Wordle.Domain;
-using static Wordle.Domain.Game;
 
 namespace Wordle.Tests;
 
@@ -8,7 +7,7 @@ public class WordleUnitTests
 {
     public static string answer = "ADEPT";
 
-    Domain.Game game = new Domain.Game();
+    Game game = new Game(answer);
 
 
     [Fact]
@@ -24,7 +23,7 @@ public class WordleUnitTests
             Score.NotInWord
         };
 
-        var actualResult = game.EvaluateGuess(answer, incorrectGuess);
+        var actualResult = game.EvaluateGuess(incorrectGuess);
 
         foreach (LetterScore ls in actualResult)
         {
@@ -45,7 +44,7 @@ public class WordleUnitTests
             Score.NotInWord
         };
 
-        var actualResult = game.EvaluateGuess(answer, guessWithFirstLetterCorrect);
+        var actualResult = game.EvaluateGuess(guessWithFirstLetterCorrect);
 
         foreach (LetterScore ls in actualResult)
         {
@@ -66,7 +65,7 @@ public class WordleUnitTests
             Score.NotInWord
         };
 
-        var actualResult = game.EvaluateGuess(answer, guessWithFirstLetterInWord);
+        var actualResult = game.EvaluateGuess(guessWithFirstLetterInWord);
 
         foreach (LetterScore ls in actualResult)
         {
@@ -87,7 +86,7 @@ public class WordleUnitTests
             Score.NotInWord
         };
 
-        var actualResult = game.EvaluateGuess(answer, guessWithOneCorrectAndOneInWord);
+        var actualResult = game.EvaluateGuess(guessWithOneCorrectAndOneInWord);
 
         foreach (LetterScore ls in actualResult)
         {
@@ -108,7 +107,7 @@ public class WordleUnitTests
             Score.NotInWord
         };
 
-        var actualResult = game.EvaluateGuess(answer, guessLowerCase);
+        var actualResult = game.EvaluateGuess(guessLowerCase);
 
         foreach (LetterScore ls in actualResult)
         {
@@ -129,7 +128,7 @@ public class WordleUnitTests
             Score.InWord
         };
 
-        var actualResult = game.EvaluateGuess(answer, guessAllLettersInWord);
+        var actualResult = game.EvaluateGuess(guessAllLettersInWord);
 
         foreach (LetterScore ls in actualResult)
         {
@@ -149,7 +148,7 @@ public class WordleUnitTests
             Score.Correct
         };
 
-        var actualResult = game.EvaluateGuess(answer, correctGuess);
+        var actualResult = game.EvaluateGuess(correctGuess);
 
         foreach (LetterScore ls in actualResult)
         {

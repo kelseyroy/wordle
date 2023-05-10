@@ -14,6 +14,7 @@ public class Answer
         string[] words = new string[] { };
         try
         {
+            Console.WriteLine(filePath);
             if (!File.Exists(filePath))
             {
                 throw new FileNotFoundException("This file was not found", filePath);

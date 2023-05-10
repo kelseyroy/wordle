@@ -3,7 +3,24 @@
 namespace Wordle.Domain;
 public class Game
 {
-    public List<LetterScore> EvaluateGuess(string answer, string guess)
+    private string SecretWord;
+    public Game(string? word)
+    {
+        if (word == null)
+        {
+            string relativePath = "../../../../Wordle.Domain/Data/5_letter_words.txt";
+            string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = Path.GetFullPath(Path.Combine(currentDirectory, relativePath));
+            Answer answer = new Answer();
+            SecretWord = answer.GetRandomWord(filePath);
+        }
+        else
+        {
+            SecretWord = word;
+        }
+
+    }
+    public List<LetterScore> EvaluateGuess(string guess)
     {
         int i = 0;
 
@@ -14,7 +31,7 @@ public class Game
             {
                 Id = i,
                 Letter = guessLetter,
-                Eval = evaluateLetter(guessLetter, i, answer)
+                Eval = evaluateLetter(guessLetter, i, SecretWord)
             };
             letterScoresList.Add(letterScore);
             i++;
