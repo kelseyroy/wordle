@@ -156,4 +156,56 @@ public class WordleUnitTests
             Assert.Equal(expectedResult[ls.Id], ls.Eval);
         }
     }
+    // [Fact]
+    public void EvaluateGuess_WhenOneLetterIsCorrectAndThereIsADuplicate_ShouldReturnCorrectAndNotInWord()
+    {
+        var duplicateP = "GUPPY"; // ADEPT is answer
+
+        Score[] expectedResult = {
+            Score.NotInWord,
+            Score.NotInWord,
+            Score.NotInWord,
+            Score.Correct,
+            Score.NotInWord
+        };
+
+        var actualResult = game.EvaluateGuess(duplicateP);
+
+        foreach (LetterScore ls in actualResult)
+        {
+            Assert.Equal(expectedResult[ls.Id], ls.Eval);
+        }
+    }
+
+    [Fact]
+    public void LetterFrequency_WhenGuessLetterIsNotInAnswer_ShouldReturnZero()
+    {
+        var letterNotInWord = 'G'; // answer is 'ADEPT'
+
+        var actualFrequency = game.LetterFrequency(letterNotInWord);
+
+        Assert.Equal(0, actualFrequency);
+    }
+
+    [Fact]
+    public void LetterFrequency_WhenGuessLetterIsInAnswerOnce_ShouldReturnOne()
+    {
+        var letterInWordOnce = 'P'; // answer is 'ADEPT'
+        
+        var actualFrequency = game.LetterFrequency(letterInWordOnce);
+        
+        Assert.Equal(1, actualFrequency);
+    }
+
+    [Fact]
+    public void LetterFrequency_WhenGuessLetterIsInAnswerFiveTimes_ShouldReturnFive()
+    {
+        string testAnswer = "MMMMM";
+        Game game = new Game(testAnswer);
+        var testGuessLetter = 'M';
+
+        var actualFrequency = game.LetterFrequency(testGuessLetter);
+
+        Assert.Equal(5, actualFrequency);
+    }
 }

@@ -21,7 +21,7 @@ public class Game
             {
                 Id = i,
                 Letter = guessLetter,
-                Eval = evaluateLetter(guessLetter, answer[i])
+                Eval = evaluateLetter(guessLetter, answer[i], letterScoresList, i)
             };
             letterScoresList.Add(letterScore);
             i++;
@@ -29,8 +29,20 @@ public class Game
 
         return letterScoresList;
     }
+    
+    public int LetterFrequency(char guessLetter)
+    {
+        var letterCount = 0;
 
-    private Score evaluateLetter(char guessLetter, char answerLetter)
+        foreach (char answerLetter in answer)
+        {
+            if (answerLetter == guessLetter) { letterCount++; }
+        }
+
+        return letterCount;
+    }
+
+    private Score evaluateLetter(char guessLetter, char answerLetter, List<LetterScore> letterScoresList, int scorePosition)
     {
         if (answerLetter == guessLetter)
         {
