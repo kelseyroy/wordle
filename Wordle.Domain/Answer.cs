@@ -2,14 +2,21 @@ namespace Wordle.Domain;
 
 public class Answer
 {
+    public string GetRandomWord(string filePath)
+    {
+        var wordsArr = ReadWordsFile(filePath);
+        var i = new Random().Next(wordsArr.Length);
+
+        return wordsArr[i];
+    }
     public string[] ReadWordsFile(string filePath)
     {
-        string[] words = new string[] {};
+        string[] words = new string[] { };
         try
         {
             if (!File.Exists(filePath))
             {
-                Console.WriteLine("file does not exist, better error message to come");
+                throw new FileNotFoundException("This file was not found", filePath);
             }
             else
             {
