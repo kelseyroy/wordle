@@ -10,30 +10,19 @@ public static class Program
     {
         try
         {
-            int guessCount = 0;
-            string secretWord = "ADEPT";
-            WordScore[] wordScoreArray = new WordScore[6];
-            var game = new Game();
-            var guessValidator = new GuessValidator();
-            DisplayEmptyBoard();
+            var filePath = "Wordle.Tests/Data/words_test.txt";
+            var path = Path.Combine(Environment.CurrentDirectory, filePath);
+            Console.WriteLine(path);
+            Console.WriteLine("Starting Progam.cs...");
+            Answer answer = new Answer();
+            Console.WriteLine("Created new answer instance...");
+            string[] answerList = answer.ReadWordsFile(filePath);
+            Console.WriteLine("Created answerList...");
 
-            Console.WriteLine("Type in your 5 letter guess, then hit enter:");
-            var guess = Console.ReadLine();
-
-            if (guess == null || !guessValidator.IsValid(guess))
+            for (int i =0; i < 5; i++)
             {
-                throw new ArgumentException(String.Format("{0} is not a valid word", guess),"guess");
-            }
-            else
-            {
-                guessCount++;
-                wordScoreArray[guessCount - 1] = new WordScore()
-                {
-                    GuessNumber = guessCount,
-                    LetterScores = game.EvaluateGuess(secretWord, guess)
-                };
-
-                UpdateBoard(wordScoreArray, guessCount);
+                Console.WriteLine("Looping in answerList and printing first 5...");
+                Console.WriteLine(answerList[i]);
             }
         }
         catch (Exception error)
