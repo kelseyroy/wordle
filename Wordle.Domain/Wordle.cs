@@ -4,6 +4,7 @@ namespace Wordle.Domain;
 public class Game
 {
     private string SecretWord;
+    Guess Guess = new Guess();
     public Game(string? word)
     {
         if (word == null)
