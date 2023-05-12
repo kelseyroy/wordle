@@ -32,7 +32,16 @@ public class Guess
 
         return letterScoresList;
     }
+    public bool IsFiveLetters(string guess)
+    {
+        return guess.Length == 5 && guess.All(Char.IsLetter);
+    }
 
+    public bool IsValid(string guess)
+    {
+        // TODO: Guess should be validated against an actual dictionary
+        return IsFiveLetters(guess);
+    }
     private Score evaluateLetter(char guessLetter, int i, string answer)
     {
         if (answer[i] == guessLetter)
@@ -45,15 +54,5 @@ public class Guess
         }
 
         return Score.NotInWord;
-    }
-    public bool IsFiveLetters(string guess)
-    {
-        return guess.Length == 5 && guess.All(Char.IsLetter);
-    }
-
-    public bool IsValid(string guess)
-    {
-        // TODO: Guess should be validated against an actual dictionary
-        return IsFiveLetters(guess);
     }
 }
