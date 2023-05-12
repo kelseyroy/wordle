@@ -10,31 +10,31 @@ public static class Program
     {
         try
         {
-            int guessCount = 0;
-            string secretWord = "ADEPT";
-            WordScore[] wordScoreArray = new WordScore[6];
-            var game = new Game();
-            var guessValidator = new GuessValidator();
-            DisplayEmptyBoard();
+            // int guessCount = 0;
+            // string secretWord = "ADEPT";
+            // WordScore[] wordScoreArray = new WordScore[6];
+            // var game = new Game();
+            // var guessValidator = new Game();
+            // DisplayEmptyBoard();
 
-            Console.WriteLine("Type in your 5 letter guess, then hit enter:");
-            var guess = Console.ReadLine();
+            // Console.WriteLine("Type in your 5 letter guess, then hit enter:");
+            // var guess = Console.ReadLine();
 
-            if (guess == null || !guessValidator.IsValid(guess))
-            {
-                throw new ArgumentException(String.Format("{0} is not a valid word", guess),"guess");
-            }
-            else
-            {
-                guessCount++;
-                wordScoreArray[guessCount - 1] = new WordScore()
-                {
-                    GuessNumber = guessCount,
-                    LetterScores = game.EvaluateGuess(secretWord, guess)
-                };
+            // if (guess == null || !guessValidator.IsValid(guess))
+            // {
+            //     throw new ArgumentException(String.Format("{0} is not a valid word", guess),"guess");
+            // }
+            // else
+            // {
+            //     guessCount++;
+            //     wordScoreArray[guessCount - 1] = new WordScore()
+            //     {
+            //         GuessNumber = guessCount,
+            //         LetterScores = game.EvaluateGuess(secretWord, guess)
+            //     };
 
-                UpdateBoard(wordScoreArray, guessCount);
-            }
+            //     UpdateBoard(wordScoreArray, guessCount);
+            // }
         }
         catch (Exception error)
         {
