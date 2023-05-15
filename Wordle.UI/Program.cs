@@ -13,10 +13,11 @@ public static class Program
     {
         try
         {
+            Menu menu = new Menu();
             bool showMenu = true;
             while (showMenu)
             {
-                showMenu = MainMenu();
+                showMenu = menu.WelcomeMenu();
             }
         }
         catch (Exception error)
