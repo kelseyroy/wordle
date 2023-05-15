@@ -3,8 +3,7 @@ namespace Wordle.UI;
 
 public interface IWordleUI
 {
-    // public string GetGuess();
-    void UpdateBoard(WordScore[] words, int guessCount);
+    void UpdateBoard(WordScore[] words);
     void DisplayEmptyBoard();
     string GetGuessInput();
     void DisplayMessage(string message);

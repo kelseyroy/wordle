@@ -27,7 +27,6 @@ public class ConsoleUI : IWordleUI
         Console.Clear();
         Console.BackgroundColor = ConsoleColor.Black;
         Console.WriteLine(@"
-
 ╔═══╦═══╦═══╦═══╦═══╗
 ║   ║   ║   ║   ║   ║
 ╠═══╬═══╬═══╬═══╬═══╣
@@ -42,7 +41,7 @@ public class ConsoleUI : IWordleUI
 ║   ║   ║   ║   ║   ║
 ╚═══╩═══╩═══╩═══╩═══╝");
     }
-    public void UpdateBoard(WordScore[] words, int guessCount)
+    public void UpdateBoard(WordScore[] words)
     {
         var topBorder = "╔═══╦═══╦═══╦═══╦═══╗";
         var bottomBorder = "╚═══╩═══╩═══╩═══╩═══╝";

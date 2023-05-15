@@ -21,6 +21,10 @@ public class Game
         }
 
     }
+    public string GetAnswer()
+    {
+        return SecretWord;
+    }
     public WordScore[]? MakeMove(string playerGuess)
     {
         if (Guess.IsValid(playerGuess))
@@ -50,5 +54,4 @@ public class Game
     {
         return Guess.GuessCount == 6;
     }
-
 }
