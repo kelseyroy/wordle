@@ -11,6 +11,37 @@ public static class Program
 {
     public static void Main(string[] args)
     {
+        NewGame();
+    }
+    private static void MainMenu()
+    {
+        Console.Clear();
+        Console.WriteLine("Welcome to");
+        Console.WriteLine("╔═══╦═══╦═══╦═══╦═══╦═══╗");
+        ConsoleColor currentForeground = Console.ForegroundColor;
+        ConsoleColor currentBackground = Console.BackgroundColor;
+        Logo(Console.ForegroundColor, Console.BackgroundColor);
+        Console.Write("║" + Environment.NewLine);
+        Console.WriteLine("╚═══╩═══╩═══╩═══╩═══╩═══╝");
+    }
+    private static void Logo(ConsoleColor foreground, ConsoleColor background)
+    {
+        ConsoleColor[] colors = new ConsoleColor[] { ConsoleColor.DarkGreen, ConsoleColor.DarkGray, ConsoleColor.DarkYellow };
+
+        foreach (char letter in "WORDLE")
+        {
+            Console.Write("║");
+            Random random = new Random();
+            int idx = random.Next(0, 3);
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = colors[idx];
+            Console.Write($" {letter} ");
+            Console.ForegroundColor = foreground;
+            Console.BackgroundColor = background;
+        }
+    }
+    private static void NewGame()
+    {
         try
         {
             Game game = new Game(null);
@@ -52,5 +83,6 @@ public static class Program
         {
             Console.WriteLine(error.Message);
         }
+
     }
 }
