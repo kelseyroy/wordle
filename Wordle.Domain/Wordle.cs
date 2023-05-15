@@ -27,6 +27,10 @@ public class Game
     {
         return SecretWord;
     }
+    public int GetGuessCount()
+    {
+        return Guess.GuessCount;
+    }
     public bool IsMoveAccepted(string playerGuess, [NotNullWhen(true)] out Dictionary<int, WordScore>? value)
     {
         value = default;

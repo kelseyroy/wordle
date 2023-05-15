@@ -30,9 +30,6 @@ public static class Program
             Console.Clear();
             Console.WriteLine("Thanks for playing! Wordle was closed.");
         }
-
-
-        // NewGame();
     }
     private static bool MainMenu()
     {
@@ -51,7 +48,7 @@ public static class Program
             case "-g":
             case "--game":
                 NewGame();
-                return true;
+                return false;
             case "-h":
             case "--help":
                 HelpMenu();
@@ -62,10 +59,6 @@ public static class Program
             default:
                 return true;
         }
-    }
-    private static void HelpMenu()
-    {
-        Console.WriteLine("Help Menu to come");
     }
     private static void Logo(ConsoleColor foreground, ConsoleColor background)
     {
@@ -84,6 +77,33 @@ public static class Program
         }
         Console.Write("║" + Environment.NewLine);
         Console.WriteLine("╚═══╩═══╩═══╩═══╩═══╩═══╝" + Environment.NewLine);
+    }
+    private static void HelpMenu()
+    {
+        Console.Clear();
+        Console.WriteLine("Help Menu to come");
+
+        ReturnToMainMenu();
+    }
+    private static void ReturnToMainMenu()
+    {
+        // Console.WriteLine($"\r\nYour modified string is: {message}");
+        Console.Write("\r\nPress Enter to return to Main Menu");
+        Console.ReadLine();
+    }
+    private static void PlayNewGameOrQuit()
+    {
+        Console.WriteLine("Would you like to play again?");
+        Console.WriteLine("Press [ enter | return ] for a new game or [ esc ] to quit.");
+        ConsoleKey key = Console.ReadKey(true).Key;
+        switch (key)
+        {
+            case ConsoleKey.Enter:
+                NewGame();
+                break;
+            case ConsoleKey.Escape:
+                break;
+        }
     }
     private static void NewGame()
     {
@@ -122,5 +142,30 @@ public static class Program
             return game.EvaluateGameState(currentGuess);
         }
 
+        consoleUI.DisplayEmptyBoard();
+        while (gameState == GameState.Playing)
+        {
+            // Console.WriteLine(game.GetAnswer());
+            gameState = TakeTurn();
+        }
+
+        if (gameState == GameState.Won)
+        {
+            string answer = game.GetAnswer();
+            int count = game.GetGuessCount();
+            string isGuessCountOne(int count)
+            {
+                if (count == 1) { return "try"; }
+                else { return "tries"; }
+            }
+            Console.WriteLine("Congrats! You guessed {0} in {1} {2}.", answer, count, isGuessCountOne(count));
+        }
+        else if (gameState == GameState.Lost)
+        {
+            string answer = game.GetAnswer();
+            Console.WriteLine("The word was {0}. Beter luck next time!", answer);
+        }
+
+        PlayNewGameOrQuit();
     }
 }
