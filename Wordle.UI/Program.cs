@@ -36,13 +36,13 @@ public static class Program
         Console.ForegroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.Black;
         Console.Clear();
-        Console.WriteLine("Welcome to");
         Logo(Console.ForegroundColor, Console.BackgroundColor);
-        Console.WriteLine("Choose an option from the following list and hit enter:");
-        Console.WriteLine("\t[ -g | --game ] to play the game");
-        Console.WriteLine("\t[ -h | --help ] for usage/instructions");
-        Console.WriteLine("\t[ -q | --quit ] to quit");
-        Console.WriteLine("What would you like to do?");
+        Console.WriteLine(@"
+Choose an option from the following list and press enter:
+    [ -g | --game ] to play the game
+    [ -h | --help ] for usage/instructions
+    [ -q | --quit ] to quit
+What would you like to do? ");
         switch (Console.ReadLine())
         {
             case "-g":
@@ -63,6 +63,7 @@ public static class Program
     private static void Logo(ConsoleColor foreground, ConsoleColor background)
     {
         ConsoleColor[] colors = new ConsoleColor[] { ConsoleColor.DarkGreen, ConsoleColor.DarkGray, ConsoleColor.DarkYellow };
+        Console.WriteLine("Welcome to" + Environment.NewLine);
         Console.WriteLine("╔═══╦═══╦═══╦═══╦═══╦═══╗");
         foreach (char letter in "WORDLE")
         {
@@ -76,25 +77,65 @@ public static class Program
             Console.BackgroundColor = background;
         }
         Console.Write("║" + Environment.NewLine);
-        Console.WriteLine("╚═══╩═══╩═══╩═══╩═══╩═══╝" + Environment.NewLine);
+        Console.WriteLine("╚═══╩═══╩═══╩═══╩═══╩═══╝");
     }
     private static void HelpMenu()
     {
         Console.Clear();
-        Console.WriteLine("Help Menu to come");
-
+        HelpMenuInstructions();
         ReturnToMainMenu();
+    }
+    private static void HelpMenuInstructions()
+    {
+
+        Console.WriteLine(@"
+How To Play:
+Guess the word in 6 tries.
+
+  * When prompted, type in a valid 5-letter word 
+    and press enter.
+  * The color of the board tiles will change to 
+    show how close your guess was to the word.
+          
+For Example:
+
+The word to guess is ADEPT");
+        HelpMenuExample(Console.ForegroundColor, Console.BackgroundColor);
+        Console.WriteLine(@"
+A is in ADEPT and in the correct spot.
+D is in ADEPT but in the wrong spot.
+U, I and O are not in the word in any spot."
+);
+
+    }
+    private static void HelpMenuExample(ConsoleColor foreground, ConsoleColor background)
+    {
+        ConsoleColor[] audioColors = new ConsoleColor[] { ConsoleColor.DarkGreen, ConsoleColor.DarkGray, ConsoleColor.DarkYellow, ConsoleColor.DarkGray, ConsoleColor.DarkGray };
+
+        Console.WriteLine("╔═══╦═══╦═══╦═══╦═══╗");
+        string str = "AUDIO";
+        for (int i = 0; i < str.Length; i++)
+        {
+            char letter = str[i];
+            Console.Write("║");
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = audioColors[i];
+            Console.Write($" {letter} ");
+            Console.ForegroundColor = foreground;
+            Console.BackgroundColor = background;
+        }
+        Console.Write("║" + Environment.NewLine);
+        Console.WriteLine("╚═══╩═══╩═══╩═══╩═══╝");
     }
     private static void ReturnToMainMenu()
     {
-        // Console.WriteLine($"\r\nYour modified string is: {message}");
-        Console.Write("\r\nPress Enter to return to Main Menu");
-        Console.ReadLine();
+        Console.Write("\r\nPress any key to return to Main Menu");
+        Console.ReadKey();
     }
     private static void PlayNewGameOrQuit()
     {
-        Console.WriteLine("Would you like to play again?");
-        Console.WriteLine("Press [ enter | return ] for a new game or [ esc ] to quit.");
+        Console.Write("\r\nWould you like to play again?");
+        Console.Write("\r\nPress [ enter | return ] for a new game or [ esc ] to quit.");
         ConsoleKey key = Console.ReadKey(true).Key;
         switch (key)
         {
@@ -153,12 +194,12 @@ public static class Program
         {
             string answer = game.GetAnswer();
             int count = game.GetGuessCount();
-            string isGuessCountOne(int count)
+            string PluralizeTry(int count)
             {
                 if (count == 1) { return "try"; }
                 else { return "tries"; }
             }
-            Console.WriteLine("Congrats! You guessed {0} in {1} {2}.", answer, count, isGuessCountOne(count));
+            Console.WriteLine("Congrats! You guessed {0} in {1} {2}.", answer, count, PluralizeTry(count));
         }
         else if (gameState == GameState.Lost)
         {
