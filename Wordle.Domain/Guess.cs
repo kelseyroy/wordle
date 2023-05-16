@@ -2,16 +2,24 @@ namespace Wordle.Domain;
 
 public class Guess
 {
-    public WordScore[] Guesses = new WordScore[6];
+    public Dictionary<int, WordScore> Guesses = new Dictionary<int, WordScore>(6);
     public int GuessCount = 0;
-    public void UpdateGuesses(List<LetterScore> letterScores)
+    public bool TryUpdateGuesses(string answer, string guess)
     {
-        GuessCount++;
-        Guesses[GuessCount - 1] = new WordScore()
+        if (IsValid(guess))
+        {
+            GuessCount++;
+        }
+        if (GuessCount == 0 || GuessCount > 6)
+        {
+            return false;
+        }
+        WordScore wordScore = new WordScore()
         {
             GuessNumber = GuessCount,
-            LetterScores = letterScores
+            LetterScores = EvaluateGuess(answer, guess)
         };
+        return Guesses.TryAdd((GuessCount - 1), wordScore);
     }
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {

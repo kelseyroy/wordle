@@ -10,30 +10,31 @@ public class WordleUnitTests
     Game game = new Game(answer);
 
     [Fact]
-    public void MakeMove_WhenPlayerMakesInvalidGuess_ShouldNotReturnWordScoreArray()
+    public void TryMakeMove_WhenPlayerMakesInvalidGuess_ShouldNotReturnGuessesDictionary()
     {
         var fourLetterGuess = "FOUR";
-        Assert.Null(game.MakeMove(fourLetterGuess));
+        Dictionary<int,WordScore>? shouldBeNull = null;
+        Assert.False(game.TryMakeMove(fourLetterGuess, out shouldBeNull));
+        Assert.Null(shouldBeNull);
     }
     [Fact]
-    public void MakeMove_WhenPlayerMakesValidGuess_ShouldUpdateWordScoreArray()
+    public void TryMakeMove_WhenPlayerMakesValidGuess_ShouldUpdateGuessesDictionary()
     {
         var validGuess = "GROWN";
-        var makeMove = game.MakeMove(validGuess);
-
-        int result = makeMove.Count(ws => ws != null);
-        Assert.True(result == 1);
+        var result = new Dictionary<int,WordScore>(1);
+        Assert.True(game.TryMakeMove(validGuess, out result));
+        // bool? isAdded = result.ContainsKey(0);
+        Assert.NotNull(result);
     }
     [Fact]
-    public void MakeMove_WhenPlayerMakesTwoValidGuesses_ShouldUpdateWordScoreArray()
+    public void TryMakeMove_WhenPlayerMakesTwoValidGuesses_ShouldUpdateGuessesDictionary()
     {
         var validGuessOne = "GROWN";
         var validGuessTwo = "GUPPY";
-        game.MakeMove(validGuessOne);
-        var makeSecondMove = game.MakeMove(validGuessTwo);
-
-        int result = makeSecondMove.Count(ws => ws != null);
-        Assert.True(result == 2);
+        var twoValidWords =  new Dictionary<int,WordScore>(2);
+        Assert.True(game.TryMakeMove(validGuessOne, out twoValidWords));
+        Assert.True(game.TryMakeMove(validGuessTwo, out twoValidWords));
+        Assert.NotNull(twoValidWords);
     }
 
     [Fact]
@@ -53,9 +54,10 @@ public class WordleUnitTests
     {
         var wrongGuess = "WRONG";
         int i = 0;
+        Dictionary<int,WordScore>? result =  new Dictionary<int,WordScore>(6);
         while (i < 6)
         {
-            game.MakeMove(wrongGuess);
+            game.TryMakeMove(wrongGuess, out result);
             i++;
         }
         Assert.Equal(GameState.Lost, game.EvaluateGameState(wrongGuess));

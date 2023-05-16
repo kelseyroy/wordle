@@ -29,7 +29,7 @@ public static class Program
                 {
                     consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
                     currentGuess = consoleUI.GetGuessInput();
-                    guesses = game.MakeMove(currentGuess);
+                    // guesses = game.MakeMove(currentGuess);
                 }
                 return guesses;
             }

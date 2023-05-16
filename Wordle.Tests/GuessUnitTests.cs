@@ -17,25 +17,21 @@ public class GuessUnitTests
     [Fact]
     public void GuessArray_WhenNoGuessesHaveBeenMade_ShouldHoldNoGuesses()
     {
-        foreach (WordScore item in Guess.Guesses)
+        foreach (KeyValuePair<int, WordScore> entry in Guess.Guesses)
         {
-            Assert.Null(item);
+            Assert.Null(entry.Value);
         }
     }
     [Fact]
-    public void GuessCount_WhenUpdateGuessStatisticsIsCalledOnce_ShouldEqualOne()
+    public void GuessCount_WhenTryUpdateGuessesIsCalledOnce_ShouldEqualOne()
     {
-        List<LetterScore> guessOne = Guess.EvaluateGuess(answer, "ARBOR");
-
-        Guess.UpdateGuesses(guessOne);
-
+        Assert.True(Guess.TryUpdateGuesses(answer, "ARBOR"));
         Assert.Equal(1, Guess.GuessCount);
     }
     [Fact]
-    public void GuessArray_WhenUpdateGuessStatisticsIsCalledOnce_ShouldHaveOneWordScoreItem()
+    public void GuessArray_WhenTryUpdateGuessesIsCalledOnce_ShouldHaveOneWordScoreItem()
     {
-        List<LetterScore> guessOne = Guess.EvaluateGuess(answer, "ARBOR");
-        Guess.UpdateGuesses(guessOne);
+        Assert.True(Guess.TryUpdateGuesses(answer, "ARBOR"));
 
         var actualResult = Guess.Guesses[0].LetterScores;
 
@@ -55,11 +51,8 @@ public class GuessUnitTests
     [Fact]
     public void GuessCount_WhenUpdateGuessStatisticsIsCalledTwice_ShouldEqualTwo()
     {
-        List<LetterScore> guessOne = Guess.EvaluateGuess(answer, "ARBOR");
-        List<LetterScore> guessTwo = Guess.EvaluateGuess(answer, "GROWN");
-
-        Guess.UpdateGuesses(guessOne);
-        Guess.UpdateGuesses(guessTwo);
+        Assert.True(Guess.TryUpdateGuesses(answer, "ARBOR"));
+        Assert.True(Guess.TryUpdateGuesses(answer, "GROWN"));
 
         Assert.Equal(2, Guess.GuessCount);
     }
@@ -74,11 +67,8 @@ public class GuessUnitTests
             Score.NotInWord
         };
 
-        List<LetterScore> guessOne = Guess.EvaluateGuess(answer, "ARBOR");
-        List<LetterScore> guessTwo = Guess.EvaluateGuess(answer, "GROWN");
-
-        Guess.UpdateGuesses(guessOne);
-        Guess.UpdateGuesses(guessTwo);
+        Guess.TryUpdateGuesses(answer, "ARBOR");
+        Guess.TryUpdateGuesses(answer, "GROWN");
 
         var actualResult = Guess.Guesses[1].LetterScores;
 

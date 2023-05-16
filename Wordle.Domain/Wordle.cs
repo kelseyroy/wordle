@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Wordle.Domain;
 public class Game
@@ -25,17 +27,30 @@ public class Game
     {
         return SecretWord;
     }
-    public WordScore[]? MakeMove(string playerGuess)
+    // public WordScore[]? MakeMove(string playerGuess)
+    // {
+    //     if (Guess.IsValid(playerGuess))
+    //     {
+    //         Guess.UpdateGuesses(SecretWord, playerGuess);
+    //         return Guess.Guesses;
+    //     }
+    //     else
+    //     {
+    //         return null;
+    //     }
+    // }
+    public bool TryMakeMove(string playerGuess, out Dictionary<int,WordScore>? value)
     {
-        if (Guess.IsValid(playerGuess))
+        value = default;
+
+        if (Guess.TryUpdateGuesses(SecretWord, playerGuess))
         {
-            var letterScoreList = Guess.EvaluateGuess(SecretWord, playerGuess);
-            Guess.UpdateGuesses(letterScoreList);
-            return Guess.Guesses;
+            value = Guess.Guesses;
+            return true;
         }
         else
         {
-            return null;
+            return false;
         }
     }
     public GameState EvaluateGameState(string playerGuess)
