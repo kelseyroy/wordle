@@ -1,39 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Wordle.Domain;
 public class Game
 {
-    public List<LetterScore> EvaluateGuess(string answer, string guess)
+    private string SecretWord;
+    Guess Guess = new Guess();
+    public Game(string? word)
     {
-        int i = 0;
-
-        List<LetterScore> letterScoresList = new List<LetterScore>();
-        foreach (char guessLetter in guess.ToUpper())
-        {   
-            LetterScore letterScore = new LetterScore()
-            {
-                Id = i,
-                Letter = guessLetter,
-                Eval = evaluateLetter(guessLetter, i, answer)
-            };
-            letterScoresList.Add(letterScore);
-            i++;
+        if (word == null)
+        {
+            string relativePath = "../../../../Wordle.Domain/Data/5_letter_words.txt";
+            string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = Path.GetFullPath(Path.Combine(currentDirectory, relativePath));
+            Answer answer = new Answer();
+            SecretWord = answer.GetRandomWord(filePath);
+        }
+        else
+        {
+            SecretWord = word;
         }
 
-        return letterScoresList;
+    }
+    public string GetAnswer()
+    {
+        return SecretWord;
+    }
+    public bool IsMoveAccepted(string playerGuess, [NotNullWhen(true)] out Dictionary<int, WordScore>? value)
+    {
+        value = default;
+
+        if (Guess.IsGuessesUpdated(SecretWord, playerGuess))
+        {
+            value = Guess.Guesses;
+            return true;
+        }
+        return false;
+    }
+    public GameState EvaluateGameState(string playerGuess)
+    {
+        GameState result = GameState.Playing;
+        if (IsWin(playerGuess)) { result = GameState.Won; }
+        else if (IsGuessCountSix()) { result = GameState.Lost; }
+        return result;
     }
 
-    private Score evaluateLetter(char guessLetter, int i, string answer)
+    private bool IsWin(string guess)
     {
-        if (answer[i] == guessLetter)
-        {
-            return Score.Correct;
-        } 
-        if (answer.Contains(guessLetter))
-        {
-            return Score.InWord;
-        }
-
-        return Score.NotInWord;
+        return guess == SecretWord;
+    }
+    private bool IsGuessCountSix()
+    {
+        return Guess.GuessCount == 6;
     }
 }

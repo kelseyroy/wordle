@@ -1,6 +1,5 @@
 using Xunit;
 using Wordle.Domain;
-using static Wordle.Domain.Game;
 
 namespace Wordle.Tests;
 
@@ -8,152 +7,60 @@ public class WordleUnitTests
 {
     public static string answer = "ADEPT";
 
-    Game game = new Game();
-
+    Game game = new Game(answer);
 
     [Fact]
-    public void EvaluateGuess_WhenNoLetterIsInWord_ShouldReturnAllNotInWord()
+    public void IsMoveAccepted_WhenPlayerMakesInvalidGuess_ShouldNotReturnGuessesDictionary()
     {
-        var incorrectGuess = "GROWN";
-
-        Score[] expectedResult = {
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord
-        };
-
-        var actualResult = game.EvaluateGuess(answer, incorrectGuess);
-
-        foreach (LetterScore ls in actualResult)
-        {
-            Assert.Equal(expectedResult[ls.Id], ls.Eval);
-        }
+        var fourLetterGuess = "FOUR";
+        Dictionary<int, WordScore>? shouldBeNull = null;
+        Assert.False(game.IsMoveAccepted(fourLetterGuess, out shouldBeNull));
+        Assert.Null(shouldBeNull);
+    }
+    [Fact]
+    public void IsMoveAccepted_WhenPlayerMakesValidGuess_ShouldUpdateGuessesDictionary()
+    {
+        var validGuess = "GROWN";
+        var result = new Dictionary<int, WordScore>(1);
+        Assert.True(game.IsMoveAccepted(validGuess, out result));
+        bool? isAdded = result.ContainsKey(0);
+        Assert.True(isAdded);
+    }
+    [Fact]
+    public void IsMoveAccepted_WhenPlayerMakesTwoValidGuesses_ShouldUpdateGuessesDictionary()
+    {
+        var validGuessOne = "GROWN";
+        var validGuessTwo = "GUPPY";
+        var twoValidWords = new Dictionary<int, WordScore>(2);
+        Assert.True(game.IsMoveAccepted(validGuessOne, out twoValidWords));
+        bool? isAdded = twoValidWords.ContainsKey(0);
+        Assert.True(twoValidWords.ContainsKey(0));
+        Assert.True(game.IsMoveAccepted(validGuessTwo, out twoValidWords));
+        Assert.True(twoValidWords.ContainsKey(1));
+        Assert.NotNull(twoValidWords);
     }
 
     [Fact]
-    public void EvaluateGuess_WhenFirstLetterIsCorrect_ShouldReturnOneCorrect()
+    public void EvaluateGameState_WhenGuessDoesNotEqualAnswer_ShouldReturnPlaying()
     {
-        var guessWithFirstLetterCorrect = "ARBOR";
-
-        Score[] expectedResult = {
-            Score.Correct,
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord
-        };
-
-        var actualResult = game.EvaluateGuess(answer, guessWithFirstLetterCorrect);
-
-        foreach (LetterScore ls in actualResult)
-        {
-            Assert.Equal(expectedResult[ls.Id], ls.Eval);
-        }
-    }
-
-    [Fact]
-    public void EvaluateGuess_WhenFirstLetterIsInWord_ShouldReturnOneInWord()
-    {
-        var guessWithFirstLetterInWord = "TOURS";
-
-        Score[] expectedResult = {
-            Score.InWord,
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord,
-            Score.NotInWord
-        };
-
-        var actualResult = game.EvaluateGuess(answer, guessWithFirstLetterInWord);
-
-        foreach (LetterScore ls in actualResult)
-        {
-            Assert.Equal(expectedResult[ls.Id], ls.Eval);
-        }
-    }
-
-    [Fact]
-    public void EvaluateGuess_WhenOneLetterIsCorrectAndOneLetterIsInWord_ShouldReturnOneCorrectOneInWord()
-    {
-        var guessWithOneCorrectAndOneInWord = "AUDIO";
-
-        Score[] expectedResult = {
-            Score.Correct,
-            Score.NotInWord,
-            Score.InWord,
-            Score.NotInWord,
-            Score.NotInWord
-        };
-
-        var actualResult = game.EvaluateGuess(answer, guessWithOneCorrectAndOneInWord);
-
-        foreach (LetterScore ls in actualResult)
-        {
-            Assert.Equal(expectedResult[ls.Id], ls.Eval);
-        }
-    }
-
-    [Fact]
-    public void EvaluateGuess_WhenPlayersEnterAnyCase_ShouldStillEvaluateCorrectly()
-    {
-        var guessLowerCase = "audio";
-
-        Score[] expectedResult = {
-            Score.Correct,
-            Score.NotInWord,
-            Score.InWord,
-            Score.NotInWord,
-            Score.NotInWord
-        };
-
-        var actualResult = game.EvaluateGuess(answer, guessLowerCase);
-
-        foreach (LetterScore ls in actualResult)
-        {
-            Assert.Equal(expectedResult[ls.Id], ls.Eval);
-        }
-    }
-
-    [Fact]
-    public void EvaluateGuess_WhenAllLettersAreInWord_ShouldReturnAllInWord()
-    {
-        var guessAllLettersInWord = "TAPED";
-
-        Score[] expectedResult = {
-            Score.InWord,
-            Score.InWord,
-            Score.InWord,
-            Score.InWord,
-            Score.InWord
-        };
-
-        var actualResult = game.EvaluateGuess(answer, guessAllLettersInWord);
-
-        foreach (LetterScore ls in actualResult)
-        {
-            Assert.Equal(expectedResult[ls.Id], ls.Eval);
-        }
+        var wrongGuess = "ADAPT";
+        Assert.Equal(GameState.Playing, game.EvaluateGameState(wrongGuess));
     }
     [Fact]
-    public void EvaluateGuess_WhenAllLettersAreCorrect_ShouldReturnAllCorrect()
+    public void EvaluateGameState_WhenGuessEqualsAnswer_ShouldReturnWon()
     {
-        var correctGuess = "ADEPT";
-
-        Score[] expectedResult = {
-            Score.Correct,
-            Score.Correct,
-            Score.Correct,
-            Score.Correct,
-            Score.Correct
-        };
-
-        var actualResult = game.EvaluateGuess(answer, correctGuess);
-
-        foreach (LetterScore ls in actualResult)
+        Assert.Equal(GameState.Won, game.EvaluateGameState(answer));
+    }
+    [Fact]
+    public void EvaluateGameState_WhenPlayerMakesSixWrongGuesses_ShouldReturnLost()
+    {
+        var wrongGuess = "WRONG";
+        int i = 0;
+        while (i < 6)
         {
-            Assert.Equal(expectedResult[ls.Id], ls.Eval);
+            game.IsMoveAccepted(wrongGuess, out Dictionary<int, WordScore>? result);
+            i++;
         }
+        Assert.Equal(GameState.Lost, game.EvaluateGameState(wrongGuess));
     }
 }

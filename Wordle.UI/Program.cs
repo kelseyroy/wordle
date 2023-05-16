@@ -1,5 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Wordle.Domain;
 
 namespace Wordle.UI;
@@ -10,115 +13,44 @@ public static class Program
     {
         try
         {
-            int guessCount = 0;
-            string secretWord = "ADEPT";
-            WordScore[] wordScoreArray = new WordScore[6];
-            var game = new Game();
-            var guessValidator = new GuessValidator();
-            DisplayEmptyBoard();
+            Game game = new Game(null);
+            ConsoleUI consoleUI = new ConsoleUI();
+            string currentGuess = "";
+            GameState gameState = GameState.Playing;
 
-            Console.WriteLine("Type in your 5 letter guess, then hit enter:");
-            var guess = Console.ReadLine();
-
-            if (guess == null || !guessValidator.IsValid(guess))
+            consoleUI.DisplayEmptyBoard();
+            while (gameState == GameState.Playing)
             {
-                throw new ArgumentException(String.Format("{0} is not a valid word", guess),"guess");
+                // Console.WriteLine(game.GetAnswer());
+                gameState = TakeTurn();
             }
-            else
-            {
-                guessCount++;
-                wordScoreArray[guessCount - 1] = new WordScore()
-                {
-                    GuessNumber = guessCount,
-                    LetterScores = game.EvaluateGuess(secretWord, guess)
-                };
 
-                UpdateBoard(wordScoreArray, guessCount);
+            Dictionary<int, WordScore> GetGuess()
+            {
+                consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
+                currentGuess = consoleUI.GetGuessInput();
+                if (game.IsMoveAccepted(currentGuess, out Dictionary<int, WordScore>? guesses))
+                {
+                    return guesses;
+                }
+                else
+                {
+                    consoleUI.DisplayMessage("Invalid word.");
+                    return GetGuess();
+                }
+            }
+            GameState TakeTurn()
+            {
+                WordScore[] guesses = new WordScore[6];
+                Dictionary<int, WordScore> getGuesses = GetGuess();
+                getGuesses.Values.ToArray().CopyTo(guesses, 0);
+                consoleUI.UpdateBoard(guesses);
+                return game.EvaluateGameState(currentGuess);
             }
         }
         catch (Exception error)
         {
             Console.WriteLine(error.Message);
         }
-
-    }
-
-    private static void DisplayEmptyBoard()
-    {
-        Console.Clear();
-        Console.BackgroundColor = ConsoleColor.Black;
-        Console.WriteLine(@"
- ╔═══╦═══╦═══╦═══╦═══╗
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╠═══╬═══╬═══╬═══╬═══╣
- ║   ║   ║   ║   ║   ║
- ╚═══╩═══╩═══╩═══╩═══╝");
-    }
-    private static void RenderCell(LetterScore letter)
-    {
-        if (letter.Eval == Score.Correct)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-        }
-        else if (letter.Eval == Score.InWord)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkYellow;
-        }
-        else
-        {
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-        }
-        Console.Write($" {letter.Letter} ");
-        Console.BackgroundColor = ConsoleColor.Black;
-    }
-
-    private static void RenderRow(WordScore word)
-    {
-        foreach (LetterScore letter in word.LetterScores)
-        {
-            Console.Write("║");
-            RenderCell(letter);
-        }
-        Console.Write("║" + Environment.NewLine);
-    }
-    private static void UpdateBoard(WordScore[] words, int guessCount)
-    {
-        var topBorder = "╔═══╦═══╦═══╦═══╦═══╗";
-        var bottomBorder = "╚═══╩═══╩═══╩═══╩═══╝";
-        var rowBorder = "╠═══╬═══╬═══╬═══╬═══╣";
-        var emptyRow = "║   ║   ║   ║   ║   ║";
-
-        Console.Clear();
-        Console.WriteLine(topBorder);
-        
-        int i = 0;
-        while (i < 6)
-        {
-            while (i < guessCount)
-            {
-                RenderRow(words[i]);
-                Console.WriteLine(rowBorder);
-                i++;
-            }
-            Console.WriteLine(emptyRow);
-            if (i == 5)
-            {
-                break;
-            }
-            else
-            {
-                Console.WriteLine(rowBorder);
-            }
-            i++;
-        }
-        Console.WriteLine(bottomBorder);
     }
 }
