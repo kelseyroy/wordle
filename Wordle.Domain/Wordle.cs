@@ -27,19 +27,7 @@ public class Game
     {
         return SecretWord;
     }
-    // public WordScore[]? MakeMove(string playerGuess)
-    // {
-    //     if (Guess.IsValid(playerGuess))
-    //     {
-    //         Guess.UpdateGuesses(SecretWord, playerGuess);
-    //         return Guess.Guesses;
-    //     }
-    //     else
-    //     {
-    //         return null;
-    //     }
-    // }
-    public bool TryMakeMove(string playerGuess, out Dictionary<int,WordScore>? value)
+    public bool TryMakeMove(string playerGuess, [NotNullWhen(true)] out Dictionary<int, WordScore>? value)
     {
         value = default;
 
@@ -48,10 +36,7 @@ public class Game
             value = Guess.Guesses;
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
     public GameState EvaluateGameState(string playerGuess)
     {

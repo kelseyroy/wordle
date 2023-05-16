@@ -9,17 +9,14 @@ public class Guess
         if (IsValid(guess))
         {
             GuessCount++;
+            WordScore wordScore = new WordScore()
+            {
+                GuessNumber = GuessCount,
+                LetterScores = EvaluateGuess(answer, guess)
+            };
+            return Guesses.TryAdd((GuessCount - 1), wordScore);
         }
-        if (GuessCount == 0 || GuessCount > 6)
-        {
-            return false;
-        }
-        WordScore wordScore = new WordScore()
-        {
-            GuessNumber = GuessCount,
-            LetterScores = EvaluateGuess(answer, guess)
-        };
-        return Guesses.TryAdd((GuessCount - 1), wordScore);
+        return false;
     }
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {

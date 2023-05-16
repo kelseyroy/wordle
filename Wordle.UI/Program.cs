@@ -1,5 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Wordle.Domain;
 
 namespace Wordle.UI;
@@ -24,14 +27,17 @@ public static class Program
 
             WordScore[] GetGuess()
             {
-                WordScore[]? guesses = null;
-                while (guesses == null)
+                consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
+                currentGuess = consoleUI.GetGuessInput();
+                if (game.TryMakeMove(currentGuess, out Dictionary<int, WordScore>? guesses))
                 {
-                    consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
-                    currentGuess = consoleUI.GetGuessInput();
-                    // guesses = game.MakeMove(currentGuess);
+                    return guesses.Values.ToArray();
                 }
-                return guesses;
+                else
+                {
+                    consoleUI.DisplayMessage("Invalid word.");
+                    return GetGuess();
+                }
             }
             GameState TakeTurn()
             {
