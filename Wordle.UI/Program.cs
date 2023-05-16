@@ -25,13 +25,13 @@ public static class Program
                 gameState = TakeTurn();
             }
 
-            WordScore[] GetGuess()
+            Dictionary<int, WordScore> GetGuess()
             {
                 consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
                 currentGuess = consoleUI.GetGuessInput();
-                if (game.TryMakeMove(currentGuess, out Dictionary<int, WordScore>? guesses))
+                if (game.IsMoveAccepted(currentGuess, out Dictionary<int, WordScore>? guesses))
                 {
-                    return guesses.Values.ToArray();
+                    return guesses;
                 }
                 else
                 {
@@ -41,7 +41,9 @@ public static class Program
             }
             GameState TakeTurn()
             {
-                WordScore[] guesses = GetGuess();
+                WordScore[] guesses = new WordScore[6];
+                Dictionary<int, WordScore> getGuesses = GetGuess();
+                getGuesses.Values.ToArray().CopyTo(guesses, 0);
                 consoleUI.UpdateBoard(guesses);
                 return game.EvaluateGameState(currentGuess);
             }

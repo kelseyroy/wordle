@@ -27,11 +27,11 @@ public class Game
     {
         return SecretWord;
     }
-    public bool TryMakeMove(string playerGuess, [NotNullWhen(true)] out Dictionary<int, WordScore>? value)
+    public bool IsMoveAccepted(string playerGuess, [NotNullWhen(true)] out Dictionary<int, WordScore>? value)
     {
         value = default;
 
-        if (Guess.TryUpdateGuesses(SecretWord, playerGuess))
+        if (Guess.IsGuessesUpdated(SecretWord, playerGuess))
         {
             value = Guess.Guesses;
             return true;

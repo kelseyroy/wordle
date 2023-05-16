@@ -4,10 +4,11 @@ public class Guess
 {
     public Dictionary<int, WordScore> Guesses = new Dictionary<int, WordScore>(6);
     public int GuessCount = 0;
-    public bool TryUpdateGuesses(string answer, string guess)
+    public bool IsGuessesUpdated(string answer, string guess)
     {
         if (IsValid(guess))
         {
+            Console.WriteLine($"Guess.cs {Guesses.Count()}");
             GuessCount++;
             WordScore wordScore = new WordScore()
             {

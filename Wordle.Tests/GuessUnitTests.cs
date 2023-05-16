@@ -25,13 +25,13 @@ public class GuessUnitTests
     [Fact]
     public void GuessCount_WhenTryUpdateGuessesIsCalledOnce_ShouldEqualOne()
     {
-        Assert.True(Guess.TryUpdateGuesses(answer, "ARBOR"));
+        Assert.True(Guess.IsGuessesUpdated(answer, "ARBOR"));
         Assert.Equal(1, Guess.GuessCount);
     }
     [Fact]
-    public void GuessArray_WhenTryUpdateGuessesIsCalledOnce_ShouldHaveOneWordScoreItem()
+    public void GuessArray_WhenIsGuessesUpdatedIsTrue_ShouldHaveOneWordScoreItem()
     {
-        Assert.True(Guess.TryUpdateGuesses(answer, "ARBOR"));
+        Assert.True(Guess.IsGuessesUpdated(answer, "ARBOR"));
 
         var actualResult = Guess.Guesses[0].LetterScores;
 
@@ -49,15 +49,15 @@ public class GuessUnitTests
         }
     }
     [Fact]
-    public void GuessCount_WhenTryUpdateGuessesIsCalledTwice_ShouldEqualTwo()
+    public void GuessCount_WhenIsGuessesUpdatedIsTrueTwice_ShouldEqualTwo()
     {
-        Assert.True(Guess.TryUpdateGuesses(answer, "ARBOR"));
-        Assert.True(Guess.TryUpdateGuesses(answer, "GROWN"));
+        Assert.True(Guess.IsGuessesUpdated(answer, "ARBOR"));
+        Assert.True(Guess.IsGuessesUpdated(answer, "GROWN"));
 
         Assert.Equal(2, Guess.GuessCount);
     }
     [Fact]
-    public void GuessArray_WhenTryUpdateGuessesIsCalledTwice_ShouldHaveTwoWordScoreItems()
+    public void GuessArray_WhenIsGuessesUpdatedIsTrueTwice_ShouldHaveTwoWordScoreItems()
     {
         Score[] expectedResult = {
             Score.NotInWord,
@@ -67,8 +67,8 @@ public class GuessUnitTests
             Score.NotInWord
         };
 
-        Guess.TryUpdateGuesses(answer, "ARBOR");
-        Guess.TryUpdateGuesses(answer, "GROWN");
+        Guess.IsGuessesUpdated(answer, "ARBOR");
+        Guess.IsGuessesUpdated(answer, "GROWN");
 
         var actualResult = Guess.Guesses[1].LetterScores;
 
