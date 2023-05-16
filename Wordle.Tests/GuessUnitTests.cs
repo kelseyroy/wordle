@@ -9,7 +9,7 @@ public class GuessUnitTests
     public string answer = "ADEPT";
 
     [Fact]
-    public void GuessCount_WhenNoGuessesHaveBeenMade_ShouldEqualcsZero()
+    public void GuessCount_WhenNoGuessesHaveBeenMade_ShouldEqualZero()
     {
         Assert.Equal(0, Guess.GuessCount);
     }
@@ -49,7 +49,7 @@ public class GuessUnitTests
         }
     }
     [Fact]
-    public void GuessCount_WhenUpdateGuessStatisticsIsCalledTwice_ShouldEqualTwo()
+    public void GuessCount_WhenTryUpdateGuessesIsCalledTwice_ShouldEqualTwo()
     {
         Assert.True(Guess.TryUpdateGuesses(answer, "ARBOR"));
         Assert.True(Guess.TryUpdateGuesses(answer, "GROWN"));
@@ -57,7 +57,7 @@ public class GuessUnitTests
         Assert.Equal(2, Guess.GuessCount);
     }
     [Fact]
-    public void GuessArray_WhenUpdateGuessStatisticsIsCalledTwice_ShouldHaveTwoWordScoreItems()
+    public void GuessArray_WhenTryUpdateGuessesIsCalledTwice_ShouldHaveTwoWordScoreItems()
     {
         Score[] expectedResult = {
             Score.NotInWord,
