@@ -8,7 +8,6 @@ public class Guess
     {
         if (IsValid(guess))
         {
-            Console.WriteLine($"Guess.cs {Guesses.Count()}");
             GuessCount++;
             WordScore wordScore = new WordScore()
             {
@@ -21,22 +20,73 @@ public class Guess
     }
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
-        int i = 0;
-
+        Dictionary<char, int> answerLetters = LetterFrequency(answer);
         List<LetterScore> letterScoresList = new List<LetterScore>();
-        foreach (char guessLetter in guess.ToUpper())
+
+        if (answer == guess)
         {
-            LetterScore letterScore = new LetterScore()
+
+            for (int i = 0; i < guess.Length; i++)
             {
-                Id = i,
-                Letter = guessLetter,
-                Eval = evaluateLetter(guessLetter, i, answer)
-            };
-            letterScoresList.Add(letterScore);
-            i++;
+                var ls = new LetterScore()
+                {
+                    Id = i,
+                    Letter = guess[i],
+                    Eval = Score.Correct
+                };
+                letterScoresList.Add(ls);
+            }
+            return letterScoresList;
         }
 
+        for (int i = 0; i < answer.Length; i++)
+        {
+            if (answer[i] == guess[i])
+            {
+                var ls = new LetterScore()
+                {
+                    Id = i,
+                    Letter = guess[i],
+                    Eval = Score.Correct
+                };
+                letterScoresList.Add(ls);
+                answer.Remove(i, 1);
+                guess.Remove(i, 1);
+            }
+        }
+
+        for (int i = 0; i < guess.Length; i++)
+        {
+            if (answer.Contains(guess[i]))
+            {
+                var ls = new LetterScore()
+                {
+                    Id = i,
+                    Letter = guess[i],
+                    Eval = Score.Correct
+                };
+                letterScoresList.Add(ls);
+                answer.Remove(i, 1);
+                guess.Remove(i, 1);
+            }
+        }
         return letterScoresList;
+    }
+    public Dictionary<char, int> LetterFrequency(string word)
+    {
+        Dictionary<char, int> frequencyMap = new Dictionary<char, int>();
+        foreach (char letter in word)
+        {
+            if (frequencyMap.ContainsKey(letter))
+            {
+                frequencyMap[letter]++;
+            }
+            else
+            {
+                frequencyMap[letter] = 1;
+            }
+        }
+        return frequencyMap;
     }
     public bool IsFiveLetters(string guess)
     {
