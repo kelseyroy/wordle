@@ -7,7 +7,6 @@ public class Play
     private ConsoleUI consoleUI = new ConsoleUI();
     private string CurrentGuess = "";
     private GameState CurrentGameState = GameState.Playing;
-    private string? answer = null;
     public void NewWordleGame()
     {
         consoleUI.DisplayEmptyBoard();
@@ -18,20 +17,25 @@ public class Play
         EndGameMessage();
         PlayNewGameOrQuit();
     }
-    private WordScore[] GetGuess()
+    private Dictionary<int, WordScore> GetGuess()
     {
-        WordScore[]? guesses = null;
-        while (guesses == null)
+        consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
+        CurrentGuess = consoleUI.GetGuessInput();
+        if (game.IsMoveAccepted(CurrentGuess, out Dictionary<int, WordScore>? guesses))
         {
-            consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
-            CurrentGuess = consoleUI.GetGuessInput();
-            guesses = game.MakeMove(CurrentGuess);
+            return guesses;
         }
-        return guesses;
+        else
+        {
+            consoleUI.DisplayMessage("Invalid word.");
+            return GetGuess();
+        }
     }
     private GameState TakeTurn()
     {
-        WordScore[] guesses = GetGuess();
+        WordScore[] guesses = new WordScore[6];
+        Dictionary<int, WordScore> getGuesses = GetGuess();
+        getGuesses.Values.ToArray().CopyTo(guesses, 0);
         consoleUI.UpdateBoard(guesses);
         return game.EvaluateGameState(CurrentGuess);
     }
@@ -40,6 +44,7 @@ public class Play
         if (CurrentGameState == GameState.Won)
         {
             int count = game.GetGuessCount();
+            string answer = game.GetAnswer();
             Console.WriteLine($"Congrats! You guessed {answer} in {count} {PluralizeTry(count)}.");
         }
         else if (CurrentGameState == GameState.Lost)

@@ -27,8 +27,7 @@ public class ConsoleUI : IWordleUI
         Console.Clear();
         Console.BackgroundColor = ConsoleColor.Black;
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(@"
-╔═══╦═══╦═══╦═══╦═══╗
+        Console.WriteLine(@"╔═══╦═══╦═══╦═══╦═══╗
 ║   ║   ║   ║   ║   ║
 ╠═══╬═══╬═══╬═══╬═══╣
 ║   ║   ║   ║   ║   ║
