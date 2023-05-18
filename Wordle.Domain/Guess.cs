@@ -20,55 +20,60 @@ public class Guess
     }
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
-        Dictionary<char, int> answerLetters = LetterFrequency(answer);
+        List<LetterScore> tempLettersList = new List<LetterScore>();
+
         List<LetterScore> letterScoresList = new List<LetterScore>();
+        var editedAnswer = answer.ToUpper();
+        var editedGuess = guess.ToUpper();
 
-        if (answer == guess)
+        if (editedAnswer == editedGuess)
         {
 
-            for (int i = 0; i < guess.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
                 var ls = new LetterScore()
                 {
                     Id = i,
-                    Letter = guess[i],
+                    Letter = editedGuess[i],
                     Eval = Score.Correct
                 };
                 letterScoresList.Add(ls);
             }
-            return letterScoresList;
+            // return letterScoresList;
         }
 
-        for (int i = 0; i < answer.Length; i++)
+        for (int i = 0; i < 5; i++)
         {
-            if (answer[i] == guess[i])
+            if (editedAnswer[i] == editedGuess[i])
             {
                 var ls = new LetterScore()
                 {
                     Id = i,
-                    Letter = guess[i],
+                    Letter = editedGuess[i],
                     Eval = Score.Correct
                 };
                 letterScoresList.Add(ls);
-                answer.Remove(i, 1);
-                guess.Remove(i, 1);
+                editedAnswer.Remove(i, 1);
+            }
+            else
+            {
+                tempLettersList.Add(new LetterScore()
+                {
+                    Id = i,
+                    Letter = editedGuess[i],
+                    Eval = Score.NotInWord
+                });
             }
         }
 
-        for (int i = 0; i < guess.Length; i++)
+        foreach (LetterScore ls in tempLettersList)
         {
-            if (answer.Contains(guess[i]))
+            if (editedAnswer.Contains(ls.Letter))
             {
-                var ls = new LetterScore()
-                {
-                    Id = i,
-                    Letter = guess[i],
-                    Eval = Score.Correct
-                };
-                letterScoresList.Add(ls);
-                answer.Remove(i, 1);
-                guess.Remove(i, 1);
+                ls.Eval = Score.InWord;
+                // letterScoresList.Add(ls);
             }
+            letterScoresList.Add(ls);
         }
         return letterScoresList;
     }
