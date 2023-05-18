@@ -19,6 +19,7 @@ public class Play
     }
     private Dictionary<int, WordScore> GetGuess()
     {
+        consoleUI.DisplayMessage(game.GetAnswer());
         consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
         CurrentGuess = consoleUI.GetGuessInput();
         if (game.CanGuessBePlayed(CurrentGuess))

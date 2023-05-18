@@ -64,13 +64,13 @@ public class Guess
 
         for (int i = 0; i < 5; i++)
         {
-            var ls = new LetterScore()
+            var letterScore = new LetterScore()
             {
                 Id = i,
                 Letter = guess[i],
                 Eval = Score.Correct
             };
-            letterScoresList.Add(ls);
+            letterScoresList.Add(letterScore);
         }
         return letterScoresList;
     }

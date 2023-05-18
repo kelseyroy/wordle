@@ -70,11 +70,11 @@ public class ConsoleUI : IWordleUI
     }
     private void RenderRow(WordScore word)
     {
-        var sortedLS = word.LetterScores.OrderBy(ls => ls.Id);
-        foreach (LetterScore ls in sortedLS)
+        var sortedLetterScore = word.LetterScores.OrderBy(ls => ls.Id);
+        foreach (LetterScore letterScore in sortedLetterScore)
         {
             Console.Write("║");
-            RenderCell(ls);
+            RenderCell(letterScore);
         }
         Console.Write("║" + Environment.NewLine);
     }
