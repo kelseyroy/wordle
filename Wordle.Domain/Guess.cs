@@ -21,15 +21,11 @@ public class Guess
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
         var answerLetterFrequency = LetterFrequency(answer);
-
-        List<LetterScore> tempLettersList = new List<LetterScore>();
-        List<LetterScore> letterScoresList = new List<LetterScore>();
-        // var answerToCompare = "     ";
-        // var guessToCompare = "";
+        var tempLettersList = new List<LetterScore>();
+        var letterScoresList = new List<LetterScore>();
 
         if (answer == guess)
         {
-
             for (int i = 0; i < 5; i++)
             {
                 var ls = new LetterScore()
@@ -40,9 +36,7 @@ public class Guess
                 };
                 letterScoresList.Add(ls);
             }
-            // return letterScoresList;
         }
-
         for (int i = 0; i < 5; i++)
         {
             if (answer[i] == guess[i])
@@ -64,17 +58,14 @@ public class Guess
                     Letter = guess[i],
                     Eval = Score.NotInWord
                 });
-                // answerToCompare[i] = guess[i];
             }
         }
-
         foreach (LetterScore ls in tempLettersList)
         {
             if (answerLetterFrequency.ContainsKey(ls.Letter) && answerLetterFrequency[ls.Letter] != 0)
             {
                 ls.Eval = Score.InWord;
                 answerLetterFrequency[ls.Letter]--;
-                // letterScoresList.Add(ls);
             }
             letterScoresList.Add(ls);
         }
@@ -116,7 +107,6 @@ public class Guess
         {
             return Score.InWord;
         }
-
         return Score.NotInWord;
     }
 }

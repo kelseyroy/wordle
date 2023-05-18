@@ -305,7 +305,7 @@ public class GuessUnitTests
         }
     }
     [Fact]
-    public void EvaluateGuess_PlayerGuessesAllPs_ShouldReturnOneCorrectAndOneInWordy()
+    public void EvaluateGuess_PlayerGuessesAllPs_ShouldReturnTwoCorrect()
     {
         var happyAnswer = "HAPPY";
         var fivePs = "PPPPP"; // ADEPT is answer
@@ -319,6 +319,27 @@ public class GuessUnitTests
         };
 
         var actualResult = Guess.EvaluateGuess(happyAnswer, fivePs);
+
+        foreach (LetterScore ls in actualResult)
+        {
+            Assert.Equal(expectedResult[ls.Id], ls.Eval);
+        }
+    }
+    [Fact]
+    public void EvaluateGuess_PlayerGuessesAllNs_ShouldReturnOneCorrect()
+    {
+        var tunisAnswer = "TUNIS";
+        var fiveNs = "NNNNN";
+
+        Score[] expectedResult = {
+            Score.NotInWord,
+            Score.NotInWord,
+            Score.Correct,
+            Score.NotInWord,
+            Score.NotInWord
+        };
+
+        var actualResult = Guess.EvaluateGuess(tunisAnswer, fiveNs);
 
         foreach (LetterScore ls in actualResult)
         {
