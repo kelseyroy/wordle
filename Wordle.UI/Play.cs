@@ -21,9 +21,9 @@ public class Play
     {
         consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
         CurrentGuess = consoleUI.GetGuessInput();
-        if (game.IsMoveAccepted(CurrentGuess, out Dictionary<int, WordScore>? guesses))
+        if (game.CanGuessBePlayed(CurrentGuess))
         {
-            return guesses;
+            return game.MakeMove(CurrentGuess);
         }
         else
         {
