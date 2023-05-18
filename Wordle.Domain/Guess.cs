@@ -4,19 +4,15 @@ public class Guess
 {
     public Dictionary<int, WordScore> Guesses = new Dictionary<int, WordScore>(6);
     public int GuessCount = 0;
-    public bool IsGuessesUpdated(string answer, string guess)
+    public void UpdateGuesses(string answer, string guess)
     {
-        if (IsValid(guess))
+        GuessCount++;
+        WordScore wordScore = new WordScore()
         {
-            GuessCount++;
-            WordScore wordScore = new WordScore()
-            {
-                GuessNumber = GuessCount,
-                LetterScores = EvaluateGuess(answer, guess)
-            };
-            return Guesses.TryAdd((GuessCount - 1), wordScore);
-        }
-        return false;
+            GuessNumber = GuessCount,
+            LetterScores = EvaluateGuess(answer, guess)
+        };
+        Guesses.Add((GuessCount - 1), wordScore);
     }
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
@@ -92,10 +88,10 @@ public class Guess
         return guess.Length == 5 && guess.All(Char.IsLetter);
     }
 
-    public bool IsValid(string guess)
+    public bool IsValid(string guess, string[] words)
     {
         // TODO: Guess should be validated against an actual dictionary
-        return IsFiveLetters(guess);
+        return IsFiveLetters(guess) && words.Contains(guess);
     }
     private Score evaluateLetter(char guessLetter, int i, string answer)
     {
