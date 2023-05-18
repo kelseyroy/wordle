@@ -32,8 +32,21 @@ The human player will then be able to use the feedback to make an educated guess
 ## Setup
 1. [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) to your local computer.
 2. Use your terminal to navigate into your new wordle folder and install project dependencies by running `dotnet build`.
-3. To run the CLI application, call `dotnet run` from within the wordle folder.
+3. To run the CLI application, call `dotnet run --project Wordle.UI` from within the wordle folder.
 4. To run the tests, call `dotnet test` from within the wordle foler.
+
+## Start
+
+To start Wordle from the command line, call `dotnet run --project Wordle.UI` from within the wordle folder. The main menu should display a list of the available commands. The commands available to you include:
+
+### `[-h | --help]`
+The help command provides players with game rules and instructions on how to play the game.
+
+### `[-g | --game]`
+The game command will allow players to begin a new game. When prompted, players will type in a valid 5-letter word and press enter. After each turn, the board will update to display all previous guesses and the color of the board tiles will change to show how close the player's guess was to the answer. When the game is over, the player will be prompted to press the `[enter]` or `[return]` key to start a new game, or `[esc]` to quit the application.
+
+### `[-q | --quit]` or `[CTRL + C]`
+To quit the game from the main menu, players may enter `-q` or `--quit`. To exit the application from the game page, players must press the `[CTRL]` + `[C]` keys.
 
 ## Stretch Goals
 * Update the UI so the app is playable in the browser
