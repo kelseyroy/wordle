@@ -51,7 +51,6 @@ public class ConsoleUI : IWordleUI
         Console.Clear();
         Console.WriteLine(topBorder);
 
-        // int i = 0;
         for (int i = 0; i < 6; i++)
         {
             if (words[i] != null)
@@ -62,7 +61,6 @@ public class ConsoleUI : IWordleUI
             {
                 Console.WriteLine(emptyRow);
             }
-            // i++;
             if (i < 5)
             {
                 Console.WriteLine(rowBorder);

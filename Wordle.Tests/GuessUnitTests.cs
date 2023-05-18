@@ -298,7 +298,7 @@ public void IsValid_WhenGuessIsInWordList_ShouldReturnTrue()
 [Fact]
 public void EvaluateGuess_WhenOneLetterIsCorrectAndThereIsADuplicate_ShouldReturnCorrectAndNotInWord()
 {
-    var duplicateP = "GUPPY"; // ADEPT is answer
+    var duplicateP = "GUPPY";
 
     Score[] expectedResult = {
             Score.NotInWord,
@@ -319,7 +319,7 @@ public void EvaluateGuess_WhenOneLetterIsCorrectAndThereIsADuplicate_ShouldRetur
 public void EvaluateGuess_PlayerGuessesAllPs_ShouldReturnTwoCorrect()
 {
     var happyAnswer = "HAPPY";
-    var fivePs = "PPPPP"; // ADEPT is answer
+    var fivePs = "PPPPP";
 
     Score[] expectedResult = {
             Score.NotInWord,
@@ -361,7 +361,6 @@ public void EvaluateGuess_PlayerGuessesAllNs_ShouldReturnOneCorrect()
 [Fact]
 public void LetterFrequency_WhenEveryLetterIsInWordOnce_ShouldReturnZero()
 {
-    // var letterNotInWord = 'G';
     var testWord = "PODLE";
 
     var actualFrequency = Guess.LetterFrequency(testWord);

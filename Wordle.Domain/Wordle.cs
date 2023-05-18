@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-namespace Wordle.Domain;
+﻿namespace Wordle.Domain;
 public class Game
 {
     private string SecretWord;
