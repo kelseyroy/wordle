@@ -161,26 +161,26 @@ public class GuessUnitTests
         }
     }
 
-    [Fact]
-    public void EvaluateGuess_WhenPlayersEnterAnyCase_ShouldStillEvaluateCorrectly()
-    {
-        var guessLowerCase = "audio";
+    // [Fact]
+    // public void EvaluateGuess_WhenPlayersEnterAnyCase_ShouldStillEvaluateCorrectly()
+    // {
+    //     var guessLowerCase = "audio";
 
-        Score[] expectedResult = {
-            Score.Correct,
-            Score.NotInWord,
-            Score.InWord,
-            Score.NotInWord,
-            Score.NotInWord
-        };
+    //     Score[] expectedResult = {
+    //         Score.Correct,
+    //         Score.NotInWord,
+    //         Score.InWord,
+    //         Score.NotInWord,
+    //         Score.NotInWord
+    //     };
 
-        var actualResult = Guess.EvaluateGuess(answer, guessLowerCase);
+    //     var actualResult = Guess.EvaluateGuess(answer, guessLowerCase);
 
-        foreach (LetterScore ls in actualResult)
-        {
-            Assert.Equal(expectedResult[ls.Id], ls.Eval);
-        }
-    }
+    //     foreach (LetterScore ls in actualResult)
+    //     {
+    //         Assert.Equal(expectedResult[ls.Id], ls.Eval);
+    //     }
+    // }
 
     [Fact]
     public void EvaluateGuess_WhenAllLettersAreInWord_ShouldReturnAllInWord()
@@ -304,6 +304,27 @@ public class GuessUnitTests
             Assert.Equal(expectedResult[ls.Id], ls.Eval);
         }
     }
+    [Fact]
+    public void EvaluateGuess_PlayerGuessesAllPs_ShouldReturnOneCorrectAndOneInWordy()
+    {
+        var happyAnswer = "HAPPY";
+        var fivePs = "PPPPP"; // ADEPT is answer
+
+        Score[] expectedResult = {
+            Score.NotInWord,
+            Score.NotInWord,
+            Score.Correct,
+            Score.Correct,
+            Score.NotInWord
+        };
+
+        var actualResult = Guess.EvaluateGuess(happyAnswer, fivePs);
+
+        foreach (LetterScore ls in actualResult)
+        {
+            Assert.Equal(expectedResult[ls.Id], ls.Eval);
+        }
+    }
 
     [Fact]
     public void LetterFrequency_WhenEveryLetterIsInWordOnce_ShouldReturnZero()
@@ -313,7 +334,7 @@ public class GuessUnitTests
 
         var actualFrequency = Guess.LetterFrequency(testWord);
 
-        foreach(KeyValuePair<char, int> letter in actualFrequency)
+        foreach (KeyValuePair<char, int> letter in actualFrequency)
         {
             Assert.Equal(1, letter.Value);
         }

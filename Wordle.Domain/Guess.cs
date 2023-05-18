@@ -20,13 +20,14 @@ public class Guess
     }
     public List<LetterScore> EvaluateGuess(string answer, string guess)
     {
+        var answerLetterFrequency = LetterFrequency(answer);
+
         List<LetterScore> tempLettersList = new List<LetterScore>();
-
         List<LetterScore> letterScoresList = new List<LetterScore>();
-        var editedAnswer = answer.ToUpper();
-        var editedGuess = guess.ToUpper();
+        // var answerToCompare = "     ";
+        // var guessToCompare = "";
 
-        if (editedAnswer == editedGuess)
+        if (answer == guess)
         {
 
             for (int i = 0; i < 5; i++)
@@ -34,7 +35,7 @@ public class Guess
                 var ls = new LetterScore()
                 {
                     Id = i,
-                    Letter = editedGuess[i],
+                    Letter = guess[i],
                     Eval = Score.Correct
                 };
                 letterScoresList.Add(ls);
@@ -44,33 +45,35 @@ public class Guess
 
         for (int i = 0; i < 5; i++)
         {
-            if (editedAnswer[i] == editedGuess[i])
+            if (answer[i] == guess[i])
             {
                 var ls = new LetterScore()
                 {
                     Id = i,
-                    Letter = editedGuess[i],
+                    Letter = guess[i],
                     Eval = Score.Correct
                 };
                 letterScoresList.Add(ls);
-                editedAnswer.Remove(i, 1);
+                answerLetterFrequency[answer[i]]--;
             }
             else
             {
                 tempLettersList.Add(new LetterScore()
                 {
                     Id = i,
-                    Letter = editedGuess[i],
+                    Letter = guess[i],
                     Eval = Score.NotInWord
                 });
+                // answerToCompare[i] = guess[i];
             }
         }
 
         foreach (LetterScore ls in tempLettersList)
         {
-            if (editedAnswer.Contains(ls.Letter))
+            if (answerLetterFrequency.ContainsKey(ls.Letter) && answerLetterFrequency[ls.Letter] != 0)
             {
                 ls.Eval = Score.InWord;
+                answerLetterFrequency[ls.Letter]--;
                 // letterScoresList.Add(ls);
             }
             letterScoresList.Add(ls);
