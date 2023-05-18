@@ -32,6 +32,7 @@ public class Guess
                 };
                 letterScoresList.Add(ls);
             }
+            return letterScoresList;
         }
         for (int i = 0; i < 5; i++)
         {
