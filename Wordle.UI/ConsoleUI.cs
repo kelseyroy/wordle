@@ -26,8 +26,8 @@ public class ConsoleUI : IWordleUI
 
         Console.Clear();
         Console.BackgroundColor = ConsoleColor.Black;
-        Console.WriteLine(@"
-╔═══╦═══╦═══╦═══╦═══╗
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine(@"╔═══╦═══╦═══╦═══╦═══╗
 ║   ║   ║   ║   ║   ║
 ╠═══╬═══╬═══╬═══╬═══╣
 ║   ║   ║   ║   ║   ║
@@ -81,6 +81,7 @@ public class ConsoleUI : IWordleUI
     }
     private void RenderCell(LetterScore letter)
     {
+        Console.ForegroundColor = ConsoleColor.Black;
         if (letter.Eval == Score.Correct)
         {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
@@ -94,6 +95,7 @@ public class ConsoleUI : IWordleUI
             Console.BackgroundColor = ConsoleColor.DarkGray;
         }
         Console.Write($" {letter.Letter} ");
+        Console.ForegroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.Black;
     }
 }
