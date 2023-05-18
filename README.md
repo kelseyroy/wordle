@@ -37,12 +37,20 @@ The human player will then be able to use the feedback to make an educated guess
 
 ## Start
 
+![Screenshot 2023-05-18 at 3 36 32 PM](https://github.com/kelseyroy/wordle/assets/89801075/57eaff95-22d5-43f6-b738-57a10224b50a)
+
 To start Wordle from the command line, call `dotnet run --project Wordle.UI` from within the wordle folder. The main menu should display a list of the available commands. The commands available to you include:
 
 ### `[-h | --help]`
+
+<img width="354" alt="Screenshot 2023-05-17 at 4 00 41 PM" src="https://github.com/kelseyroy/wordle/assets/89801075/23c7a406-ab8f-42fb-aa92-ea36ab47ba60">
+
 The help command provides players with game rules and instructions on how to play the game.
 
 ### `[-g | --game]`
+
+![Screenshot 2023-05-18 at 4 29 04 PM](https://github.com/kelseyroy/wordle/assets/89801075/2f0a871c-c5c6-4cb7-9438-a2c9b8181a6e)
+
 The game command will allow players to begin a new game. When prompted, players will type in a valid 5-letter word and press enter. After each turn, the board will update to display all previous guesses and the color of the board tiles will change to show how close the player's guess was to the answer. When the game is over, the player will be prompted to press the `[enter]` or `[return]` key to start a new game, or `[esc]` to quit the application.
 
 ### `[-q | --quit]` or `[CTRL + C]`
