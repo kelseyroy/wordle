@@ -51,19 +51,17 @@ public class ConsoleUI : IWordleUI
         Console.Clear();
         Console.WriteLine(topBorder);
 
-        int i = 0;
-        foreach (WordScore word in words)
+        for (int i = 0; i < 6; i++)
         {
-            if (word != null)
+            if (words[i] != null)
             {
-                RenderRow(word);
+                RenderRow(words[i]);
             }
             else
             {
                 Console.WriteLine(emptyRow);
             }
-            i++;
-            if (i <= 5)
+            if (i < 5)
             {
                 Console.WriteLine(rowBorder);
             }
@@ -72,10 +70,11 @@ public class ConsoleUI : IWordleUI
     }
     private void RenderRow(WordScore word)
     {
-        foreach (LetterScore letter in word.LetterScores)
+        var sortedLetterScore = word.LetterScores.OrderBy(ls => ls.Id);
+        foreach (LetterScore letterScore in sortedLetterScore)
         {
             Console.Write("║");
-            RenderCell(letter);
+            RenderCell(letterScore);
         }
         Console.Write("║" + Environment.NewLine);
     }

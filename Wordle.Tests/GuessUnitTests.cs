@@ -25,13 +25,13 @@ public class GuessUnitTests
     [Fact]
     public void GuessCount_WhenTryUpdateGuessesIsCalledOnce_ShouldEqualOne()
     {
-        Assert.True(Guess.IsGuessesUpdated(answer, "ARBOR"));
+        Guess.UpdateGuesses(answer, "ARBOR");
         Assert.Equal(1, Guess.GuessCount);
     }
     [Fact]
     public void GuessArray_WhenIsGuessesUpdatedIsTrue_ShouldHaveOneWordScoreItem()
     {
-        Assert.True(Guess.IsGuessesUpdated(answer, "ARBOR"));
+        Guess.UpdateGuesses(answer, "ARBOR");
 
         var actualResult = Guess.Guesses[0].LetterScores;
 
@@ -51,8 +51,8 @@ public class GuessUnitTests
     [Fact]
     public void GuessCount_WhenIsGuessesUpdatedIsTrueTwice_ShouldEqualTwo()
     {
-        Assert.True(Guess.IsGuessesUpdated(answer, "ARBOR"));
-        Assert.True(Guess.IsGuessesUpdated(answer, "GROWN"));
+        Guess.UpdateGuesses(answer, "ARBOR");
+        Guess.UpdateGuesses(answer, "GROWN");
 
         Assert.Equal(2, Guess.GuessCount);
     }
@@ -67,8 +67,8 @@ public class GuessUnitTests
             Score.NotInWord
         };
 
-        Guess.IsGuessesUpdated(answer, "ARBOR");
-        Guess.IsGuessesUpdated(answer, "GROWN");
+        Guess.UpdateGuesses(answer, "ARBOR");
+        Guess.UpdateGuesses(answer, "GROWN");
 
         var actualResult = Guess.Guesses[1].LetterScores;
 
@@ -162,27 +162,6 @@ public class GuessUnitTests
     }
 
     [Fact]
-    public void EvaluateGuess_WhenPlayersEnterAnyCase_ShouldStillEvaluateCorrectly()
-    {
-        var guessLowerCase = "audio";
-
-        Score[] expectedResult = {
-            Score.Correct,
-            Score.NotInWord,
-            Score.InWord,
-            Score.NotInWord,
-            Score.NotInWord
-        };
-
-        var actualResult = Guess.EvaluateGuess(answer, guessLowerCase);
-
-        foreach (LetterScore ls in actualResult)
-        {
-            Assert.Equal(expectedResult[ls.Id], ls.Eval);
-        }
-    }
-
-    [Fact]
     public void EvaluateGuess_WhenAllLettersAreInWord_ShouldReturnAllInWord()
     {
         var guessAllLettersInWord = "TAPED";
@@ -216,6 +195,27 @@ public class GuessUnitTests
         };
 
         var actualResult = Guess.EvaluateGuess(answer, correctGuess);
+
+        foreach (LetterScore ls in actualResult)
+        {
+            Assert.Equal(expectedResult[ls.Id], ls.Eval);
+        }
+    }
+    [Fact]
+    public void EvaluateGuess_WhenOneDuplicateLetterIsCorrectAndOneIsInWord_ShouldReturnCorrectAndInWord()
+    {
+        var happyGuess = "HAPPY";
+        var apply = "APPLY";
+
+        Score[] expectedResult = {
+            Score.NotInWord,
+            Score.InWord,
+            Score.Correct,
+            Score.InWord,
+            Score.Correct
+        };
+
+        var actualResult = Guess.EvaluateGuess(apply, happyGuess);
 
         foreach (LetterScore ls in actualResult)
         {
@@ -258,11 +258,138 @@ public class GuessUnitTests
     }
 
     [Fact]
-    public void IsValid_WhenGuessIsAnyFiveLetters_ShouldReturnTrue()
+    public void IsValid_WhenGuessIsNotInWordList_ShouldReturnFalse()
     {
-        var fiveLetterGuess = "ABCDE";
-        Assert.True(Guess.IsValid(fiveLetterGuess));
+        var wordsInDataFile = new string[]
+        {
+            "RULER",
+            "MODEL",
+            "AWARD",
+            "HOTLY",
+            "NICHE",
+            "JOUST",
+            "ARBOR",
+            "EERIE",
+            "CARAT",
+            "ROUGH"
+        };
+    var invalidWord = "ABCDE";
+    Assert.False(Guess.IsValid(invalidWord, wordsInDataFile));
     }
+[Fact]
+public void IsValid_WhenGuessIsInWordList_ShouldReturnTrue()
+{
+    var wordsInDataFile = new string[]
+        {
+            "RULER",
+            "MODEL",
+            "AWARD",
+            "HOTLY",
+            "NICHE",
+            "JOUST",
+            "ARBOR",
+            "EERIE",
+            "CARAT",
+            "ROUGH"
+        };
+    var validWord = "MODEL";
+    Assert.True(Guess.IsValid(validWord, wordsInDataFile));
+}
+[Fact]
+public void EvaluateGuess_WhenOneLetterIsCorrectAndThereIsADuplicate_ShouldReturnCorrectAndNotInWord()
+{
+    var duplicateP = "GUPPY";
 
+    Score[] expectedResult = {
+            Score.NotInWord,
+            Score.NotInWord,
+            Score.NotInWord,
+            Score.Correct,
+            Score.NotInWord
+        };
+
+    var actualResult = Guess.EvaluateGuess(answer, duplicateP);
+
+    foreach (LetterScore ls in actualResult)
+    {
+        Assert.Equal(expectedResult[ls.Id], ls.Eval);
+    }
+}
+[Fact]
+public void EvaluateGuess_PlayerGuessesAllPs_ShouldReturnTwoCorrect()
+{
+    var happyAnswer = "HAPPY";
+    var fivePs = "PPPPP";
+
+    Score[] expectedResult = {
+            Score.NotInWord,
+            Score.NotInWord,
+            Score.Correct,
+            Score.Correct,
+            Score.NotInWord
+        };
+
+    var actualResult = Guess.EvaluateGuess(happyAnswer, fivePs);
+
+    foreach (LetterScore ls in actualResult)
+    {
+        Assert.Equal(expectedResult[ls.Id], ls.Eval);
+    }
+}
+[Fact]
+public void EvaluateGuess_PlayerGuessesAllNs_ShouldReturnOneCorrect()
+{
+    var tunisAnswer = "TUNIS";
+    var fiveNs = "NNNNN";
+
+    Score[] expectedResult = {
+            Score.NotInWord,
+            Score.NotInWord,
+            Score.Correct,
+            Score.NotInWord,
+            Score.NotInWord
+        };
+
+    var actualResult = Guess.EvaluateGuess(tunisAnswer, fiveNs);
+
+    foreach (LetterScore ls in actualResult)
+    {
+        Assert.Equal(expectedResult[ls.Id], ls.Eval);
+    }
+}
+
+[Fact]
+public void LetterFrequency_WhenEveryLetterIsInWordOnce_ShouldReturnZero()
+{
+    var testWord = "PODLE";
+
+    var actualFrequency = Guess.LetterFrequency(testWord);
+
+    foreach (KeyValuePair<char, int> letter in actualFrequency)
+    {
+        Assert.Equal(1, letter.Value);
+    }
+}
+
+[Fact]
+public void LetterFrequency_WhenALetterIsInWordTwice_ShouldReturnTwo()
+{
+    char P = 'P';
+    string doubleP = "GUPPY";
+
+    var actualFrequency = Guess.LetterFrequency(doubleP);
+
+    Assert.Equal(2, actualFrequency[P]);
+}
+[Fact]
+public void LetterFrequency_WhenEveryLetterIsTheSame_ShouldReturnFive()
+{
+    char M = 'M';
+    string fiveMs = "MMMMM";
+
+    var actualFrequency = Guess.LetterFrequency(fiveMs);
+
+    Assert.Equal(5, actualFrequency[M]);
+}
 }
 

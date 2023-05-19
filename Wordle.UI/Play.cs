@@ -3,7 +3,7 @@ namespace Wordle.UI;
 
 public class Play
 {
-    private Game game = new Game(null);
+    private Game game = new Game("ADEPT");
     private ConsoleUI consoleUI = new ConsoleUI();
     private string CurrentGuess = "";
     private GameState CurrentGameState = GameState.Playing;
@@ -21,9 +21,9 @@ public class Play
     {
         consoleUI.DisplayMessage("Type in your 5 letter guess, then hit enter:");
         CurrentGuess = consoleUI.GetGuessInput();
-        if (game.IsMoveAccepted(CurrentGuess, out Dictionary<int, WordScore>? guesses))
+        if (game.CanGuessBePlayed(CurrentGuess))
         {
-            return guesses;
+            return game.MakeMove(CurrentGuess);
         }
         else
         {

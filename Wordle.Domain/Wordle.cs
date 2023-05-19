@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-namespace Wordle.Domain;
+﻿namespace Wordle.Domain;
 public class Game
 {
     private string SecretWord;
     Guess Guess = new Guess();
+    private static string relativePath = "../../../../Wordle.Domain/Data/5_letter_words.txt";
+    private static string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+    private static string filePath = Path.GetFullPath(Path.Combine(currentDirectory, relativePath));
+    Answer Answer = new Answer();
     public Game(string? word)
     {
         if (word == null)
         {
-            string relativePath = "../../../../Wordle.Domain/Data/5_letter_words.txt";
-            string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string filePath = Path.GetFullPath(Path.Combine(currentDirectory, relativePath));
-            Answer answer = new Answer();
-            SecretWord = answer.GetRandomWord(filePath);
+            SecretWord = Answer.GetRandomWord(filePath);
         }
         else
         {
@@ -31,16 +27,10 @@ public class Game
     {
         return Guess.GuessCount;
     }
-    public bool IsMoveAccepted(string playerGuess, [NotNullWhen(true)] out Dictionary<int, WordScore>? value)
+    public Dictionary<int, WordScore> MakeMove(string playerGuess)
     {
-        value = default;
-
-        if (Guess.IsGuessesUpdated(SecretWord, playerGuess))
-        {
-            value = Guess.Guesses;
-            return true;
-        }
-        return false;
+        Guess.UpdateGuesses(SecretWord, playerGuess);
+        return Guess.Guesses;
     }
     public GameState EvaluateGameState(string playerGuess)
     {
@@ -48,6 +38,11 @@ public class Game
         if (IsWin(playerGuess)) { result = GameState.Won; }
         else if (IsGuessCountSix()) { result = GameState.Lost; }
         return result;
+    }
+    public bool CanGuessBePlayed(string playerGuess)
+    {
+        var words = Answer.ReadWordsFile(filePath);
+        return Guess.IsValid(playerGuess, words);
     }
 
     private bool IsWin(string guess)
