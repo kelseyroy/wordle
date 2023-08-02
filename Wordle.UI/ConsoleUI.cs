@@ -3,7 +3,7 @@ namespace Wordle.UI;
 
 public class ConsoleUI : IWordleUI
 {
-    Game game = new Game(null);
+    Game game = new Game();
     public void DisplayMessage(string message)
     {
         Console.WriteLine(message);

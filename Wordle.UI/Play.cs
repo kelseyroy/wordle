@@ -3,7 +3,7 @@ namespace Wordle.UI;
 
 public class Play
 {
-    private Game game = new Game("ADEPT");
+    private Game game = new Game();
     private ConsoleUI consoleUI = new ConsoleUI();
     private string CurrentGuess = "";
     private GameState CurrentGameState = GameState.Playing;
