@@ -7,17 +7,13 @@ public class Game
     private static string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
     private static string filePath = Path.GetFullPath(Path.Combine(currentDirectory, relativePath));
     Answer Answer = new Answer();
-    public Game(string? word)
+    public Game(string word)
     {
-        if (word == null)
-        {
-            SecretWord = Answer.GetRandomWord(filePath);
-        }
-        else
-        {
-            SecretWord = word;
-        }
-
+        SecretWord = word;
+    }
+    public Game()
+    {
+        SecretWord = Answer.GetRandomWord(filePath);
     }
     public string GetAnswer()
     {
