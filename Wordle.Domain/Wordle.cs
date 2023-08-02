@@ -4,8 +4,10 @@ public class Game
     private string SecretWord;
     Guess Guess = new Guess();
     private static string relativePath = "../../../../Wordle.Domain/Data/5_letter_words.txt";
+    private static string answerRelativePath = "../../../../Wordle.Domain/Data/answers.txt";
     private static string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
     private static string filePath = Path.GetFullPath(Path.Combine(currentDirectory, relativePath));
+    private static string answerFilePath = Path.GetFullPath(Path.Combine(currentDirectory, answerRelativePath));
     Answer Answer = new Answer();
     public Game(string word)
     {
@@ -13,7 +15,7 @@ public class Game
     }
     public Game()
     {
-        SecretWord = Answer.GetRandomWord(filePath);
+        SecretWord = Answer.GetRandomWord(answerFilePath);
     }
     public string GetAnswer()
     {
